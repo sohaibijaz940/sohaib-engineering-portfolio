@@ -2,6 +2,8 @@
 
 ![Curiosity. Made useful.](public/github/banner.svg)
 
+[![Verify portfolio and demo engines](https://github.com/sohaibijaz940/sohaib-engineering-portfolio/actions/workflows/verify.yml/badge.svg)](https://github.com/sohaibijaz940/sohaib-engineering-portfolio/actions/workflows/verify.yml)
+
 A responsive engineering portfolio and the shared source for four interactive project demos. Built by **Sohaib Ijaz**, a BS Computer Science student at the University of Central Punjab, Lahore (expected graduation: 2027).
 
 **Status:** working local demonstrations; public hosting and a production domain are not configured yet. The source is public for inspection. Do not mistake sample data, synthetic accounts or planning estimates for live commercial services.
