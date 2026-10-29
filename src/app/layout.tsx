@@ -7,7 +7,7 @@ import "./theme.css";
 
 export const metadata: Metadata = {
   title: {
-    default: "Sohaib Ijaz â€” AI/ML & Software Engineering",
+    default: "Sohaib Ijaz — AI/ML & Software Engineering",
     template: "%s | Sohaib Ijaz",
   },
   description:
