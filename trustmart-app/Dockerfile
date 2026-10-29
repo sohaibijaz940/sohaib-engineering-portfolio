@@ -3,6 +3,8 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm ci
 COPY . .
+ARG VITE_PORTFOLIO_URL
+ENV VITE_PORTFOLIO_URL=$VITE_PORTFOLIO_URL
 RUN npm run build
 FROM python:3.12-slim
 WORKDIR /app

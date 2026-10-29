@@ -1,0 +1,11 @@
+sohaibijaz.dev {
+    encode zstd gzip
+    reverse_proxy portfolio:3000
+}
+www.sohaibijaz.dev {
+    redir https://sohaibijaz.dev{uri} permanent
+}
+trustmart.sohaibijaz.dev {
+    encode zstd gzip
+    reverse_proxy trustmart:8000
+}

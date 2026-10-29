@@ -1,0 +1,206 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "location": {
+      "type": "string",
+      "defaultValue": "centralindia"
+    },
+    "sshPublicKey": {
+      "type": "string",
+      "metadata": {
+        "description": "Public half of the dedicated local deployment key only."
+      }
+    },
+    "adminCidr": {
+      "type": "string",
+      "metadata": {
+        "description": "The administrator public IPv4 with /32; detected by Azure, never use 0.0.0.0/0."
+      }
+    }
+  },
+  "variables": {
+    "vm": "sohaib-portfolio",
+    "pip": "sohaib-portfolio-ip",
+    "nsg": "sohaib-portfolio-nsg",
+    "vnet": "sohaib-portfolio-vnet",
+    "nic": "sohaib-portfolio-nic"
+  },
+  "resources": [
+    {
+      "type": "Microsoft.Network/publicIPAddresses",
+      "apiVersion": "2023-09-01",
+      "name": "[variables('pip')]",
+      "location": "[parameters('location')]",
+      "properties": {
+        "publicIPAllocationMethod": "Static",
+        "publicIPAddressVersion": "IPv4"
+      },
+      "sku": {
+        "name": "Standard"
+      }
+    },
+    {
+      "type": "Microsoft.Network/networkSecurityGroups",
+      "apiVersion": "2023-09-01",
+      "name": "[variables('nsg')]",
+      "location": "[parameters('location')]",
+      "properties": {
+        "securityRules": [
+          {
+            "name": "SSH-admin-only",
+            "properties": {
+              "priority": 1000,
+              "protocol": "Tcp",
+              "access": "Allow",
+              "direction": "Inbound",
+              "sourceAddressPrefix": "[parameters('adminCidr')]",
+              "sourcePortRange": "*",
+              "destinationAddressPrefix": "*",
+              "destinationPortRange": "22"
+            }
+          },
+          {
+            "name": "Public-web",
+            "properties": {
+              "priority": 1010,
+              "protocol": "Tcp",
+              "access": "Allow",
+              "direction": "Inbound",
+              "sourceAddressPrefix": "*",
+              "sourcePortRange": "*",
+              "destinationAddressPrefix": "*",
+              "destinationPortRanges": [
+                "80",
+                "443"
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "Microsoft.Network/virtualNetworks",
+      "apiVersion": "2023-09-01",
+      "name": "[variables('vnet')]",
+      "location": "[parameters('location')]",
+      "properties": {
+        "addressSpace": {
+          "addressPrefixes": [
+            "10.0.0.0/16"
+          ]
+        },
+        "subnets": [
+          {
+            "name": "web",
+            "properties": {
+              "addressPrefix": "10.0.0.0/24"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "Microsoft.Network/networkInterfaces",
+      "apiVersion": "2023-09-01",
+      "name": "[variables('nic')]",
+      "location": "[parameters('location')]",
+      "properties": {
+        "networkSecurityGroup": {
+          "id": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('nsg'))]"
+        },
+        "ipConfigurations": [
+          {
+            "name": "ipconfig",
+            "properties": {
+              "privateIPAllocationMethod": "Dynamic",
+              "publicIPAddress": {
+                "id": "[resourceId('Microsoft.Network/publicIPAddresses', variables('pip'))]"
+              },
+              "subnet": {
+                "id": "[resourceId('Microsoft.Network/virtualNetworks/subnets', variables('vnet'), 'web')]"
+              }
+            }
+          }
+        ]
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.Network/publicIPAddresses', variables('pip'))]",
+        "[resourceId('Microsoft.Network/virtualNetworks', variables('vnet'))]",
+        "[resourceId('Microsoft.Network/networkSecurityGroups', variables('nsg'))]"
+      ]
+    },
+    {
+      "type": "Microsoft.Compute/virtualMachines",
+      "apiVersion": "2024-03-01",
+      "name": "[variables('vm')]",
+      "location": "[parameters('location')]",
+      "properties": {
+        "hardwareProfile": {
+          "vmSize": "Standard_B2ats_v2"
+        },
+        "securityProfile": {
+          "securityType": "TrustedLaunch",
+          "uefiSettings": {
+            "secureBootEnabled": true,
+            "vTpmEnabled": true
+          }
+        },
+        "storageProfile": {
+          "imageReference": {
+            "publisher": "canonical",
+            "offer": "ubuntu-24_04-lts",
+            "sku": "server",
+            "version": "latest"
+          },
+          "osDisk": {
+            "createOption": "FromImage",
+            "diskSizeGB": 32,
+            "managedDisk": {
+              "storageAccountType": "StandardSSD_LRS"
+            },
+            "deleteOption": "Detach"
+          }
+        },
+        "osProfile": {
+          "computerName": "[variables('vm')]",
+          "adminUsername": "azureuser",
+          "customData": "IyEvdXNyL2Jpbi9lbnYgYmFzaApzZXQgLWV1byBwaXBlZmFpbApleHBvcnQgREVCSUFOX0ZST05URU5EPW5vbmludGVyYWN0aXZlCmFwdC1nZXQgdXBkYXRlIC1xcQphcHQtZ2V0IGluc3RhbGwgLXkgZG9ja2VyLmlvIGRvY2tlci1jb21wb3NlLXYyIGdpdCBjYS1jZXJ0aWZpY2F0ZXMgY3VybApzeXN0ZW1jdGwgZW5hYmxlIC0tbm93IGRvY2tlcgppZiAhIHN3YXBvbiAtLXNob3cgfCBncmVwIC1xIC9zd2FwZmlsZTsgdGhlbgogIGlmIFsgISAtZSAvc3dhcGZpbGUgXTsgdGhlbgogICAgZmFsbG9jYXRlIC1sIDRHIC9zd2FwZmlsZQogICAgY2htb2QgNjAwIC9zd2FwZmlsZQogICAgbWtzd2FwIC9zd2FwZmlsZQogIGZpCiAgc3dhcG9uIC9zd2FwZmlsZQogIGdyZXAgLXEgJ14vc3dhcGZpbGUgJyAvZXRjL2ZzdGFiIHx8IHByaW50ZiAnL3N3YXBmaWxlIG5vbmUgc3dhcCBzdyAwIDBcbicgPj4gL2V0Yy9mc3RhYgpmaQpta2RpciAtcCAvb3B0L3NvaGFpYi1wb3J0Zm9saW8KY2hvd24gYXp1cmV1c2VyOmF6dXJldXNlciAvb3B0L3NvaGFpYi1wb3J0Zm9saW8KZG9ja2VyIC0tdmVyc2lvbgpkb2NrZXIgY29tcG9zZSB2ZXJzaW9uCmZyZWUgLW0K",
+          "linuxConfiguration": {
+            "disablePasswordAuthentication": true,
+            "provisionVMAgent": true,
+            "ssh": {
+              "publicKeys": [
+                {
+                  "path": "/home/azureuser/.ssh/authorized_keys",
+                  "keyData": "[parameters('sshPublicKey')]"
+                }
+              ]
+            }
+          }
+        },
+        "networkProfile": {
+          "networkInterfaces": [
+            {
+              "id": "[resourceId('Microsoft.Network/networkInterfaces', variables('nic'))]"
+            }
+          ]
+        },
+        "diagnosticsProfile": {
+          "bootDiagnostics": {
+            "enabled": true
+          }
+        }
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.Network/networkInterfaces', variables('nic'))]"
+      ]
+    }
+  ],
+  "outputs": {
+    "publicIp": {
+      "type": "string",
+      "value": "[reference(variables('pip')).ipAddress]"
+    }
+  }
+}

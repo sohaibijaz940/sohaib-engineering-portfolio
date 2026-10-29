@@ -9,3 +9,15 @@ out
 tests/.compiled
 tests/.careindex-compiled
 *.zip
+
+.next-dev
+outputs
+work
+qa
+trustmart-app
+**/node_modules
+**/.env
+**/.env.*
+**/*.sqlite*
+**/__pycache__
+**/.venv

@@ -36,3 +36,6 @@ outputs/
 **/originals/
 /tests/.word-search-compiled/
 /tests/.learning-compiled/
+
+/deploy/.env.*
+!/deploy/.env.*.example

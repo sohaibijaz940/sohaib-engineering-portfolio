@@ -1,0 +1,50 @@
+services:
+  portfolio:
+    build:
+      context: ..
+      dockerfile: deploy/portfolio.Dockerfile
+      args:
+        NEXT_PUBLIC_SITE_URL: https://sohaibijaz.dev
+        NEXT_PUBLIC_TRUSTMART_URL: https://trustmart.sohaibijaz.dev
+    restart: unless-stopped
+    env_file: .env.portfolio
+    environment:
+      NODE_ENV: production
+      CAREINDEX_DB_PATH: /app/data/careindex.sqlite
+      TRAVEL_DB_PATH: /app/data/travel.sqlite
+      CAREINDEX_DATA_MODE: synthetic
+      HOSTNAME: 0.0.0.0
+      PORT: 3000
+    volumes:
+      - portfolio_data:/app/data
+    expose: ["3000"]
+  trustmart:
+    build:
+      context: ../trustmart-app
+      dockerfile: Dockerfile
+      args:
+        VITE_PORTFOLIO_URL: https://sohaibijaz.dev/projects/trustmart/
+    restart: unless-stopped
+    env_file: .env.trustmart
+    environment:
+      TRUSTMART_DB: /data/trustmart.sqlite
+      TRUSTMART_PUBLIC_URL: https://trustmart.sohaibijaz.dev
+      TRUSTMART_DEMO: "1"
+      TRUSTMART_SECURE: "1"
+    volumes:
+      - trustmart_data:/data
+    expose: ["8000"]
+  https:
+    image: caddy:2-alpine
+    restart: unless-stopped
+    ports: ["80:80", "443:443", "443:443/udp"]
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on: [portfolio, trustmart]
+volumes:
+  portfolio_data:
+  trustmart_data:
+  caddy_data:
+  caddy_config:
