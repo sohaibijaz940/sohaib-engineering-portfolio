@@ -1,0 +1,210 @@
+{
+  "trustmart": {
+    "words": 1636,
+    "minutes": 8,
+    "headings": [
+      {
+        "title": "The problem before the interface",
+        "id": "the-problem-before-the-interface"
+      },
+      {
+        "title": "A workflow with four separate questions",
+        "id": "a-workflow-with-four-separate-questions"
+      },
+      {
+        "title": "Comparable is a rule, not a visual similarity",
+        "id": "comparable-is-a-rule-not-a-visual-similarity"
+      },
+      {
+        "title": "Work through the trimmed mean",
+        "id": "work-through-the-trimmed-mean"
+      },
+      {
+        "title": "A QR code is a lookup, not a certificate of authenticity",
+        "id": "a-qr-code-is-a-lookup-not-a-certificate-of-authenticity"
+      },
+      {
+        "title": "Transparency needs fields, evidence and unknowns",
+        "id": "transparency-needs-fields-evidence-and-unknowns"
+      },
+      {
+        "title": "Permissions belong behind the screen",
+        "id": "permissions-belong-behind-the-screen"
+      },
+      {
+        "title": "What this build taught me",
+        "id": "what-this-build-taught-me"
+      }
+    ]
+  },
+  "travel": {
+    "words": 1544,
+    "minutes": 8,
+    "headings": [
+      {
+        "title": "Start with the decision, not the calculator",
+        "id": "start-with-the-decision-not-the-calculator"
+      },
+      {
+        "title": "A budget needs a vocabulary of sources",
+        "id": "a-budget-needs-a-vocabulary-of-sources"
+      },
+      {
+        "title": "Follow a live quote through the system",
+        "id": "follow-a-live-quote-through-the-system"
+      },
+      {
+        "title": "The browser cannot approve its own selection",
+        "id": "the-browser-cannot-approve-its-own-selection"
+      },
+      {
+        "title": "Work the conversion by hand",
+        "id": "work-the-conversion-by-hand"
+      },
+      {
+        "title": "A provider failure is part of the product",
+        "id": "a-provider-failure-is-part-of-the-product"
+      },
+      {
+        "title": "Save what was decided, not a moving target",
+        "id": "save-what-was-decided-not-a-moving-target"
+      },
+      {
+        "title": "Test the boundaries that change the answer",
+        "id": "test-the-boundaries-that-change-the-answer"
+      }
+    ]
+  },
+  "careindex": {
+    "words": 1549,
+    "minutes": 8,
+    "headings": [
+      {
+        "title": "The easy screen hides a harder promise",
+        "id": "the-easy-screen-hides-a-harder-promise"
+      },
+      {
+        "title": "Begin with the invariant",
+        "id": "begin-with-the-invariant"
+      },
+      {
+        "title": "Check who is making the request",
+        "id": "check-who-is-making-the-request"
+      },
+      {
+        "title": "Put availability inside the transaction",
+        "id": "put-availability-inside-the-transaction"
+      },
+      {
+        "title": "Keep a final rule in the database",
+        "id": "keep-a-final-rule-in-the-database"
+      },
+      {
+        "title": "Walk through the competing requests",
+        "id": "walk-through-the-competing-requests"
+      },
+      {
+        "title": "The invoice belongs to the same change",
+        "id": "the-invoice-belongs-to-the-same-change"
+      },
+      {
+        "title": "Where the AVL tree belongs",
+        "id": "where-the-avl-tree-belongs"
+      },
+      {
+        "title": "What to test and what remains a release task",
+        "id": "what-to-test-and-what-remains-a-release-task"
+      }
+    ]
+  },
+  "word-search": {
+    "words": 1549,
+    "minutes": 8,
+    "headings": [
+      {
+        "title": "A small game is a useful engineering problem",
+        "id": "a-small-game-is-a-useful-engineering-problem"
+      },
+      {
+        "title": "Make the rules executable",
+        "id": "make-the-rules-executable"
+      },
+      {
+        "title": "Reproducibility starts with a seed",
+        "id": "reproducibility-starts-with-a-seed"
+      },
+      {
+        "title": "Place the words before adding noise",
+        "id": "place-the-words-before-adding-noise"
+      },
+      {
+        "title": "Validate what the player selected",
+        "id": "validate-what-the-player-selected"
+      },
+      {
+        "title": "Make the search visible",
+        "id": "make-the-search-visible"
+      },
+      {
+        "title": "Resume without trusting arbitrary saved state",
+        "id": "resume-without-trusting-arbitrary-saved-state"
+      },
+      {
+        "title": "Design the controls for more than a mouse",
+        "id": "design-the-controls-for-more-than-a-mouse"
+      }
+    ]
+  },
+  "avl": {
+    "words": 782,
+    "minutes": 4,
+    "headings": [
+      {
+        "title": "Start with three IDs",
+        "id": "start-with-three-ids"
+      },
+      {
+        "title": "Read the balance factor as a measurement",
+        "id": "read-the-balance-factor-as-a-measurement"
+      },
+      {
+        "title": "Four cases describe the path of imbalance",
+        "id": "four-cases-describe-the-path-of-imbalance"
+      },
+      {
+        "title": "Why search order survives a rotation",
+        "id": "why-search-order-survives-a-rotation"
+      },
+      {
+        "title": "Test more than the picture",
+        "id": "test-more-than-the-picture"
+      }
+    ]
+  },
+  "sql": {
+    "words": 862,
+    "minutes": 4,
+    "headings": [
+      {
+        "title": "Begin with the things that change independently",
+        "id": "begin-with-the-things-that-change-independently"
+      },
+      {
+        "title": "Read a key as a product rule",
+        "id": "read-a-key-as-a-product-rule"
+      },
+      {
+        "title": "A join is a question across relationships",
+        "id": "a-join-is-a-question-across-relationships"
+      },
+      {
+        "title": "Historical snapshots answer a different question",
+        "id": "historical-snapshots-answer-a-different-question"
+      },
+      {
+        "title": "The next layer is behaviour",
+        "id": "the-next-layer-is-behaviour"
+      }
+    ]
+  }
+}

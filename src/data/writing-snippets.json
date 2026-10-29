@@ -1,0 +1,42 @@
+{
+  "trust-price": {
+    "code": "def market_average(offers, now=None):\n    now = now or datetime.now(timezone.utc)\n    eligible = []\n    for o in offers:\n        if o['status'] != 'Verified' or not o['approved'] or o['stock'] <= 0:\n            continue\n        stamp = datetime.fromisoformat(o['updated_at'])\n        if stamp > now or stamp < now - timedelta(days=7):\n            continue\n        eligible.append(o)\n    # The DB unique constraint guarantees one listing per supplier/component/grade/warranty.\n    eligible.sort(key=lambda o: o['price'])\n    count = len(eligible)\n    trim = int(count * .2) if count >= 5 else 0\n    used = eligible[trim:count-trim] if trim else eligible\n    return {'average': round(sum(o['price'] for o in used)/len(used)) if used else None,\n            'eligible': count, 'used': len(used), 'trimmed': trim*2,\n            'confidence': 'Sample only' if count >= 5 else 'Low confidence',\n            'last_updated': max((o['updated_at'] for o in eligible), default=None),\n            'method': '20% trimmed mean per tail for 5+ comparable offers; otherwise untrimmed mean. Verified, approved, in-stock offers updated within 7 days only.',\n            'fictional': True}",
+    "language": "python",
+    "source": "trustmart-app/backend/pricing.py"
+  },
+  "transaction": {
+    "code": "export function transaction<T>(run:()=>T):T{\n const d=db(); d.exec('BEGIN IMMEDIATE');\n try{const result=run();d.exec('COMMIT');return result;}\n catch(error){d.exec('ROLLBACK');throw error;}\n}",
+    "language": "typescript",
+    "source": "src/server/careindex-db.ts"
+  },
+  "booking-index": {
+    "code": "CREATE UNIQUE INDEX IF NOT EXISTS unique_active_doctor_slot ON booked_slots(doctor_id,date,time) WHERE status='Scheduled';",
+    "language": "sql",
+    "source": "src/server/careindex-db.ts"
+  },
+  "word-directions": {
+    "code": "export function directions(level:number){return [[0,1],[0,-1],...(level>=2?[[1,0],[-1,0]]:[]),...(level>=3?[[1,1],[1,-1],[-1,1],[-1,-1]]:[])];}",
+    "language": "typescript",
+    "source": "src/lib/word-search.ts"
+  },
+  "word-search": {
+    "code": "export function findWord(board:string[][],word:string,level:number):Cell[] {for(let r=0;r<board.length;r++)for(let c=0;c<board[r].length;c++)for(const [dr,dc]of directions(level)){const cells=Array.from({length:word.length},(_,i)=>({r:r+dr*i,c:c+dc*i}));if(cells.every((p,i)=>board[p.r]?.[p.c]?.toUpperCase()===word[i].toUpperCase()))return cells;}return [];}",
+    "language": "typescript",
+    "source": "src/lib/word-search.ts"
+  },
+  "avl-balance": {
+    "code": "export const balance = (node: AVLNode | null): number => node ? height(node.left) - height(node.right) : 0;",
+    "language": "typescript",
+    "source": "src/lib/avl.ts"
+  },
+  "trip-schema": {
+    "code": "CREATE TABLE IF NOT EXISTS trips(id TEXT PRIMARY KEY,user_id TEXT NOT NULL REFERENCES users(id),destination_id TEXT NOT NULL REFERENCES destinations(id),hotel_id TEXT NOT NULL REFERENCES hotels(id),title TEXT NOT NULL,input TEXT NOT NULL,estimate TEXT NOT NULL,total INTEGER NOT NULL CHECK(total>=0),created_at TEXT NOT NULL);",
+    "language": "sql",
+    "source": "src/server/travel-db.ts"
+  },
+  "flight-guards": {
+    "code": "export async function selectFlight(b:Record<string,unknown>,u:TravelUser){const input=b.input as TripInput;\nif(!input||input.transport!=='flight')throw Error('Choose flight transport before applying a flight quote.');\nconst d=db(),row=d.prepare('SELECT * FROM flight_search_selections WHERE id=? AND user_id=?').get(String(b.selectionId),u.id);\nif(!row)throw Error('Flight quote not found for this session. Search again.');\nif(canonical(route(input))!==canonical(JSON.parse(String(row.trip))))throw Error('The quote belongs to different dates, route or travellers. Search again.');\nif(Date.now()-Date.parse(String(row.retrieved_at))>900000)throw Error('This search is over 15 minutes old. Refresh flight prices before selecting.');\nif(!['group','per_person'].includes(String(b.basis)))throw Error('Choose whether the provider quote is a group or per-person amount.');\n// Further currency validation and persistence follow in the source.",
+    "language": "typescript",
+    "source": "src/server/travel-flight-budget.ts"
+  }
+}
