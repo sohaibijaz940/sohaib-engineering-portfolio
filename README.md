@@ -6,7 +6,11 @@
 
 A responsive engineering portfolio and the shared source for four interactive project demos. Built by **Sohaib Ijaz**, a BS Computer Science student at the University of Central Punjab, Lahore (expected graduation: 2027).
 
-**Status:** working local demonstrations; public hosting and a production domain are not configured yet. The source is public for inspection. Do not mistake sample data, synthetic accounts or planning estimates for live commercial services.
+**Live portfolio:** [sohaibijaz.dev](https://sohaibijaz.dev) · [Writing](https://sohaibijaz.dev/writing/) · [Résumé](https://sohaibijaz.dev/Sohaib_Ijaz_Public_Resume.pdf)
+
+[TrustMart](https://trustmart.sohaibijaz.dev/) · [Travel Estimator](https://sohaibijaz.dev/demos/travel/) · [CareIndex](https://sohaibijaz.dev/demos/careindex/tour/) · [Word Search Studio](https://sohaibijaz.dev/demos/word-search/)
+
+Published with HTTPS on Azure. Sample data, synthetic accounts and planning estimates are labelled; these demos are not live commercial or clinical services. See [deployment operations](deploy/README.md).
 
 ## Explore the projects
 
