@@ -7,7 +7,7 @@ import "./theme.css";
 
 export const metadata: Metadata = {
   title: {
-    default: "Sohaib Ijaz — AI/ML & Software Engineering",
+    default: "Sohaib Ijaz â€” AI/ML & Software Engineering",
     template: "%s | Sohaib Ijaz",
   },
   description:
@@ -15,6 +15,15 @@ export const metadata: Metadata = {
   metadataBase: new URL(
     process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"
   ),
+  icons: {
+    icon: [
+      { url: "/favicon.ico?v=si1", sizes: "any" },
+      { url: "/icon.svg?v=si1", type: "image/svg+xml" },
+      { url: "/favicon-32.png?v=si1", type: "image/png", sizes: "32x32" },
+    ],
+    apple: [{ url: "/apple-touch-icon.png?v=si1", sizes: "180x180", type: "image/png" }],
+  },
+  manifest: "/manifest.webmanifest",
   openGraph: {
     title: "Sohaib Ijaz | Engineering & Machine Learning",
     description: "Real projects, code, and a growing machine-learning journey.",
