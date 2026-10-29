@@ -1,4 +1,5 @@
 import 'server-only';
+import {isAppOrigin} from '@/lib/request-origin';
 import { randomBytes,createHash,scryptSync,timingSafeEqual,randomUUID } from 'node:crypto';
 import type { NextRequest } from 'next/server';
 import { db } from './careindex-db';
@@ -20,5 +21,5 @@ export function sessionUser(req:NextRequest):CareUser|null{
 }
 export function expireSession(req:NextRequest){const token=req.cookies.get(SESSION_COOKIE)?.value;if(token)db().prepare('DELETE FROM sessions WHERE token_hash=?').run(sha(token));}
 export function cookieOptions(expires:Date){return {httpOnly:true,sameSite:'strict' as const,secure:process.env.NODE_ENV==='production',path:'/',expires};}
-export function verifyOrigin(req:NextRequest){const origin=req.headers.get('origin');if(!origin)return false;try{return new URL(origin).origin===req.nextUrl.origin;}catch{return false;}}
+export function verifyOrigin(req:NextRequest){return isAppOrigin(req.headers.get('origin'),req.nextUrl.origin,process.env.NODE_ENV==='production'?process.env.NEXT_PUBLIC_SITE_URL:undefined);}
 export function registerUser(email:string,name:string,pass:string,role:Role){const id=randomUUID();db().prepare('INSERT INTO users(id,email,name,password_hash,role,created_at) VALUES(?,?,?,?,?,?)').run(id,email.toLowerCase(),name,hashPassword(pass),role,new Date().toISOString());return{id,email:email.toLowerCase(),name,role};}

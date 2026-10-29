@@ -1,3 +1,4 @@
+import {isAppOrigin} from '@/lib/request-origin';
 import{searchPlaces,placeDetails,placePhoto,cityEvents,discoveryStatus}from'@/server/travel-discovery';
 import{withFlightSelections,selectFlight,validateFlightSelection}from'@/server/travel-flight-budget';
 import{searchLiveFlights}from'@/server/travel-live-flights';
@@ -57,7 +58,7 @@ export async function POST(req: NextRequest, { params }: {
         path: string[];
     }>;
 }) { try {
-    if (req.headers.get('origin') && req.headers.get('origin') !== new URL(req.url).origin)
+    if (req.headers.get('origin') && !isAppOrigin(req.headers.get('origin'),new URL(req.url).origin,process.env.NODE_ENV==='production'?process.env.NEXT_PUBLIC_SITE_URL:undefined))
         return fail('Cross-origin request rejected.', 403);
     if (!req.headers.get('content-type')?.startsWith('application/json'))
         return fail('JSON is required.', 415);

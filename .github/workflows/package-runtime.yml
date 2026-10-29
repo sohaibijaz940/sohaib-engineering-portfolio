@@ -22,6 +22,7 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run typecheck
+      - run: npm run test:origin
       - run: npm run build
       - name: Package standalone runtime without secrets or databases
         run: |

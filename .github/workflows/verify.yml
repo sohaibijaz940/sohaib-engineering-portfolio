@@ -19,6 +19,7 @@ jobs:
           python-version: '3.12'
       - run: npm ci
       - run: npm run typecheck
+      - run: npm run test:origin
       - run: npm run test:travel
       - run: npm run test:word-search
       - run: npm run test:avl

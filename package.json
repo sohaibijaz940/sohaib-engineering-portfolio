@@ -31,7 +31,8 @@
     "test:word-search": "tsc src/lib/word-search.ts --target es2022 --module commonjs --outDir tests/.word-search-compiled --skipLibCheck --strict --esModuleInterop --resolveJsonModule && node --test tests/word-search.test.cjs",
     "writing:prepare": "node scripts/prepare-writing.mjs",
     "prebuild": "npm run writing:prepare",
-    "test:writing": "tsc src/lib/writing-labs.ts --target es2022 --module commonjs --outDir tests/.writing-compiled --skipLibCheck --strict && node --test tests/writing.test.cjs"
+    "test:writing": "tsc src/lib/writing-labs.ts --target es2022 --module commonjs --outDir tests/.writing-compiled --skipLibCheck --strict && node --test tests/writing.test.cjs",
+    "test:origin": "tsc src/lib/request-origin.ts --target es2022 --module commonjs --outDir tests/.origin-compiled --skipLibCheck --strict && node --test tests/request-origin.test.cjs"
   },
   "dependencies": {
     "@mdx-js/loader": "^3.1.1",

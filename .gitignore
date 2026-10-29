@@ -39,3 +39,5 @@ outputs/
 
 /deploy/.env.*
 !/deploy/.env.*.example
+
+/tests/.origin-compiled/
