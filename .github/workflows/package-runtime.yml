@@ -1,0 +1,38 @@
+name: Package production portfolio runtime
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths: [.github/workflows/package-runtime.yml]
+permissions:
+  contents: read
+jobs:
+  package:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      NEXT_PUBLIC_SITE_URL: https://sohaibijaz.dev
+      NEXT_PUBLIC_TRUSTMART_URL: https://trustmart.sohaibijaz.dev
+      NEXT_TELEMETRY_DISABLED: '1'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm run build
+      - name: Package standalone runtime without secrets or databases
+        run: |
+          mkdir -p runtime/.next
+          cp -a .next/standalone/. runtime/
+          cp -a .next/static runtime/.next/static
+          cp -a public runtime/public
+          tar -czf portfolio-runtime.tar.gz -C runtime .
+      - uses: actions/upload-artifact@v4
+        with:
+          name: portfolio-runtime-${{ github.sha }}
+          path: portfolio-runtime.tar.gz
+          retention-days: 3
+          compression-level: 0
