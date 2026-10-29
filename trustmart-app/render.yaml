@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: trustmart-demo
+    runtime: docker
+    plan: starter
+    healthCheckPath: /api/health
+    envVars:
+      - key: TRUSTMART_DB
+        value: /data/trustmart.sqlite
+      - key: TRUSTMART_DEMO
+        value: "1"
+      - key: TRUSTMART_SECURE
+        value: "1"
+    disk:
+      name: trustmart-data
+      mountPath: /data
+      sizeGB: 1

@@ -1,0 +1,22 @@
+Travel Estimator: a clearer budget
+
+English synthetic narration: Microsoft Zira Desktop
+Actual interface captures and labelled teaching diagrams.
+
+Begin with the whole journey
+A flight price is only one part of a trip. Travel Estimator brings transport, accommodation, daily spending, extras, and a contingency into one explained planning budget.
+
+Keep the source visible
+Base costs are illustrative estimates. Configured providers can return dated flight quotes and venue information. The interface distinguishes those sources instead of presenting every number as a current booking price.
+
+Protect the selected quote
+Before applying a flight, the server checks who selected it, the route, travel dates, and party size. A selection older than fifteen minutes must be refreshed. The browser cannot simply invent verified quote metadata.
+
+Make the price basis explicit
+For example, seven hundred dollars at an assumed rate of two hundred eighty Pakistani rupees becomes one hundred ninety-six thousand rupees for a group. If it is a per-person fare, two travellers double that flight amount.
+
+Replace once, then recalculate
+The selected flight replaces the sample transport line once. Other costs remain. The subtotal and contingency are recalculated, while baggage, transfers, and seller fees still need separate confirmation.
+
+Be honest when data is missing
+A provider may return no photos, no usable offers, or a quota error. The app explains that result. It does not replace missing live data with invented bargains. A saved plan is a snapshot, not a reservation.

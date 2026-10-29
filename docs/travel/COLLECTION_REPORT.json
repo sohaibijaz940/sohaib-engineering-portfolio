@@ -1,0 +1,205 @@
+{
+  "collectedAt": "2026-10-28T18:34:58.216Z",
+  "source": "Travel Estimator public-source adapters",
+  "fx": {
+    "status": "cached",
+    "fetchedAt": "2026-10-28T18:24:47.235Z",
+    "currencies": 6,
+    "source": "https://www.exchangerate-api.com"
+  },
+  "destinations": [
+    {
+      "id": "amalfi",
+      "name": "Amalfi Coast",
+      "guide": {
+        "status": "cached",
+        "fetchedAt": "2026-10-28T18:24:49.669Z",
+        "characters": 346,
+        "source": "https://en.wikivoyage.org/wiki/Amalfi",
+        "license": "CC BY-SA 4.0"
+      },
+      "nearby": {
+        "status": "live",
+        "places": 12,
+        "source": "https://en.wikipedia.org",
+        "fetchedAt": "2026-10-28T18:35:04.228Z"
+      },
+      "weather": {
+        "status": "cached",
+        "fetchedAt": "2026-10-28T18:24:49.428Z",
+        "days": 7,
+        "source": "https://open-meteo.com",
+        "license": "CC BY 4.0"
+      }
+    },
+    {
+      "id": "istanbul",
+      "name": "Istanbul",
+      "guide": {
+        "status": "cached",
+        "fetchedAt": "2026-10-28T18:24:51.260Z",
+        "characters": 1196,
+        "source": "https://en.wikivoyage.org/wiki/Istanbul",
+        "license": "CC BY-SA 4.0"
+      },
+      "nearby": {
+        "status": "live",
+        "places": 12,
+        "source": "https://en.wikipedia.org",
+        "fetchedAt": "2026-10-28T18:35:06.223Z"
+      },
+      "weather": {
+        "status": "cached",
+        "fetchedAt": "2026-10-28T18:24:51.036Z",
+        "days": 7,
+        "source": "https://open-meteo.com",
+        "license": "CC BY 4.0"
+      }
+    },
+    {
+      "id": "hunza",
+      "name": "Hunza",
+      "guide": {
+        "status": "cached",
+        "fetchedAt": "2026-10-28T18:24:52.688Z",
+        "characters": 606,
+        "source": "https://en.wikivoyage.org/wiki/Hunza_Valley",
+        "license": "CC BY-SA 4.0"
+      },
+      "nearby": {
+        "status": "live",
+        "places": 12,
+        "source": "https://en.wikipedia.org",
+        "fetchedAt": "2026-10-28T18:35:08.458Z"
+      },
+      "weather": {
+        "status": "cached",
+        "fetchedAt": "2026-10-28T18:24:52.228Z",
+        "days": 7,
+        "source": "https://open-meteo.com",
+        "license": "CC BY 4.0"
+      }
+    },
+    {
+      "id": "maldives",
+      "name": "Maldives",
+      "guide": {
+        "status": "cached",
+        "fetchedAt": "2026-10-28T18:24:54.342Z",
+        "characters": 442,
+        "source": "https://en.wikivoyage.org/wiki/Maldives",
+        "license": "CC BY-SA 4.0"
+      },
+      "nearby": {
+        "status": "live",
+        "places": 12,
+        "source": "https://en.wikipedia.org",
+        "fetchedAt": "2026-10-28T18:35:10.771Z"
+      },
+      "weather": {
+        "status": "cached",
+        "fetchedAt": "2026-10-28T18:24:54.138Z",
+        "days": 7,
+        "source": "https://open-meteo.com",
+        "license": "CC BY 4.0"
+      }
+    },
+    {
+      "id": "dubai",
+      "name": "Dubai",
+      "guide": {
+        "status": "cached",
+        "fetchedAt": "2026-10-28T18:24:55.695Z",
+        "characters": 1473,
+        "source": "https://en.wikivoyage.org/wiki/Dubai",
+        "license": "CC BY-SA 4.0"
+      },
+      "nearby": {
+        "status": "live",
+        "places": 12,
+        "source": "https://en.wikipedia.org",
+        "fetchedAt": "2026-10-28T18:35:12.619Z"
+      },
+      "weather": {
+        "status": "cached",
+        "fetchedAt": "2026-10-28T18:24:55.454Z",
+        "days": 7,
+        "source": "https://open-meteo.com",
+        "license": "CC BY 4.0"
+      }
+    },
+    {
+      "id": "paris",
+      "name": "Paris",
+      "guide": {
+        "status": "cached",
+        "fetchedAt": "2026-10-28T18:24:57.481Z",
+        "characters": 1033,
+        "source": "https://en.wikivoyage.org/wiki/Paris",
+        "license": "CC BY-SA 4.0"
+      },
+      "nearby": {
+        "status": "live",
+        "places": 12,
+        "source": "https://en.wikipedia.org",
+        "fetchedAt": "2026-10-28T18:35:14.634Z"
+      },
+      "weather": {
+        "status": "cached",
+        "fetchedAt": "2026-10-28T18:24:57.260Z",
+        "days": 7,
+        "source": "https://open-meteo.com",
+        "license": "CC BY 4.0"
+      }
+    },
+    {
+      "id": "bali",
+      "name": "Bali",
+      "guide": {
+        "status": "cached",
+        "fetchedAt": "2026-10-28T18:24:58.497Z",
+        "characters": 885,
+        "source": "https://en.wikivoyage.org/wiki/Bali",
+        "license": "CC BY-SA 4.0"
+      },
+      "nearby": {
+        "status": "live",
+        "places": 5,
+        "source": "https://en.wikipedia.org",
+        "fetchedAt": "2026-10-28T18:35:16.906Z"
+      },
+      "weather": {
+        "status": "cached",
+        "fetchedAt": "2026-10-28T18:24:58.265Z",
+        "days": 7,
+        "source": "https://open-meteo.com",
+        "license": "CC BY 4.0"
+      }
+    },
+    {
+      "id": "rome",
+      "name": "Rome",
+      "guide": {
+        "status": "cached",
+        "fetchedAt": "2026-10-28T18:24:59.596Z",
+        "characters": 1149,
+        "source": "https://en.wikivoyage.org/wiki/Rome",
+        "license": "CC BY-SA 4.0"
+      },
+      "nearby": {
+        "status": "live",
+        "places": 12,
+        "source": "https://en.wikipedia.org",
+        "fetchedAt": "2026-10-28T18:35:18.931Z"
+      },
+      "weather": {
+        "status": "cached",
+        "fetchedAt": "2026-10-28T18:24:59.438Z",
+        "days": 7,
+        "source": "https://open-meteo.com",
+        "license": "CC BY 4.0"
+      }
+    }
+  ],
+  "notice": "No hotel/airline inventory or reviews were scraped. No ML model trained. FX values are not redistributed in this report."
+}

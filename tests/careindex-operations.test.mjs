@@ -1,0 +1,9 @@
+import test from 'node:test';import assert from 'node:assert/strict';import fs from 'node:fs';import os from 'node:os';import path from 'node:path';import {spawnSync} from 'node:child_process';import {DatabaseSync} from 'node:sqlite';
+const root=fs.mkdtempSync(path.join(os.tmpdir(),'careindex-v10-ops-'));
+try{
+ const filename=path.join(root,'test.sqlite');const sql=new DatabaseSync(filename);sql.exec('CREATE TABLE users(id TEXT);CREATE TABLE patients(id INTEGER);CREATE TABLE booked_slots(id TEXT);CREATE TABLE invoices(id TEXT);CREATE TABLE audit(id TEXT);INSERT INTO patients VALUES(10001)');sql.close();
+ const env={...process.env,CAREINDEX_DB_PATH:filename,CAREINDEX_BACKUP_DIR:path.join(root,'backups')};
+ await test('online backup creates verified snapshot without modifying source',()=>{const r=spawnSync(process.execPath,['scripts/backup-careindex.mjs'],{cwd:process.cwd(),env,encoding:'utf8'});assert.equal(r.status,0,r.stderr+r.stdout);const backups=fs.readdirSync(env.CAREINDEX_BACKUP_DIR);assert.equal(backups.filter(x=>x.endsWith('.sqlite')).length,1);assert.ok(backups.some(x=>x.endsWith('.sha256')));});
+ await test('restore drill validates checksum, foreign keys and schema',()=>{const src=fs.readdirSync(env.CAREINDEX_BACKUP_DIR).find(x=>x.endsWith('.sqlite'));const target=path.join(env.CAREINDEX_BACKUP_DIR,src);const r=spawnSync(process.execPath,['scripts/verify-backup.mjs',target],{cwd:process.cwd(),encoding:'utf8'});assert.equal(r.status,0,r.stderr+r.stdout);assert.match(r.stdout,/PASS:/);});
+ await test('tampered snapshot is refused',()=>{const src=fs.readdirSync(env.CAREINDEX_BACKUP_DIR).find(x=>x.endsWith('.sqlite'));const target=path.join(env.CAREINDEX_BACKUP_DIR,src);fs.appendFileSync(target,'tamper');const r=spawnSync(process.execPath,['scripts/verify-backup.mjs',target],{cwd:process.cwd(),encoding:'utf8'});assert.notEqual(r.status,0);assert.match(r.stderr,/mismatch/);});
+}finally{fs.rmSync(root,{recursive:true,force:true});}

@@ -1,0 +1,3 @@
+import {redirect} from 'next/navigation';
+import Link from 'next/link';
+export default function TrustMartGateway(){const configured=process.env.NEXT_PUBLIC_TRUSTMART_URL;if(configured&&/^https?:\/\//.test(configured))redirect(configured);if(process.env.NODE_ENV==='development')redirect('http://localhost:8000');return <main style={{maxWidth:700,margin:'100px auto',padding:30}}><h1>TrustMart</h1><p>The separate TrustMart application is awaiting its public demo address. Explore the project and source in the meantime.</p><Link href="/projects/trustmart/">View TrustMart case study</Link><br/><Link href="/">Back to portfolio</Link></main>;}

@@ -1,0 +1,22 @@
+CareIndex: one slot, one booking
+
+English synthetic narration: Microsoft Zira Desktop
+Actual interface captures and labelled teaching diagrams.
+
+An easy button, a harder problem
+Booking an appointment looks like a simple click. But two people may request the same doctor and time. A reliable system must make one correct decision, even when both screens looked available.
+
+Check authority before writing
+CareIndex checks the request origin and session first. Staff need the right permission. A patient account is tied to its own fictional profile, so changing a browser field cannot book for an unrelated patient.
+
+Put the check inside the transaction
+The booking path begins an immediate SQLite transaction before checking availability. SQLite serialises writers. This prevents two independent check-then-write sequences from both treating the same slot as free.
+
+Keep the invariant in the database
+A partial unique index allows only one scheduled booking for a doctor, date, and time. The application also checks working hours and existing reservations. The database rule remains a final protection.
+
+Commit the complete change
+The appointment and its invoice are created inside the same transaction. Both commit together. If something fails, the transaction rolls back. A competing request receives a controlled conflict instead of a second reservation.
+
+Understand what the demo proves
+The engineering lab explains database behaviour and separate algorithms, including A V L rotations. It does not claim that a teaching tree replaces SQLite indexing. All patients are fictional, and payments are simulated.

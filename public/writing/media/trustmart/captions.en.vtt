@@ -1,0 +1,71 @@
+WEBVTT
+
+00:00:00.080 --> 00:00:03.700
+In Lahore's electronics markets, two similar-
+looking parts may have very different
+
+00:00:03.700 --> 00:00:08.105
+quality, warranties, and prices. TrustMart
+helps a buyer inspect those differences
+
+00:00:08.105 --> 00:00:09.440
+before deciding.
+
+00:00:09.770 --> 00:00:14.525
+First, describe the component precisely. A
+phone model, component type, quality
+
+00:00:14.525 --> 00:00:18.130
+grade, and warranty define the comparison
+group. A cheaper but different
+
+00:00:18.130 --> 00:00:20.425
+part is not automatically a better offer.
+
+00:00:20.755 --> 00:00:24.130
+The price engine keeps approved offers from
+verified suppliers, with stock
+
+00:00:24.130 --> 00:00:28.540
+available and timestamps no older than seven
+days. A revoked, stale,
+
+00:00:28.540 --> 00:00:31.565
+or unavailable offer cannot influence this
+calculation.
+
+00:00:31.895 --> 00:00:34.890
+With five or more eligible offers, it removes
+twenty percent from
+
+00:00:34.890 --> 00:00:38.610
+each end of the sorted prices, then averages
+the remaining values.
+
+00:00:38.610 --> 00:00:41.865
+Smaller samples use the ordinary mean and
+show low confidence.
+
+00:00:42.195 --> 00:00:44.500
+A camera scan or manual Shop I D resolves
+through the
+
+00:00:44.500 --> 00:00:48.805
+backend to the current supplier record.
+Verified describes that record. It
+
+00:00:48.805 --> 00:00:52.280
+does not prove every product is authentic or
+guarantee compensation.
+
+00:00:52.610 --> 00:00:57.350
+Customers can inspect disclosures, supplier
+status, and report a problem. Suppliers
+
+00:00:57.350 --> 00:01:01.315
+and administrators have separate permissions.
+This demo uses fictional shops and
+
+00:01:01.315 --> 00:01:05.155
+sample prices, making its limits visible
+alongside its features.

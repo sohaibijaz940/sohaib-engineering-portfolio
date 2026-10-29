@@ -1,0 +1,77 @@
+WEBVTT
+
+00:00:00.080 --> 00:00:03.115
+Booking an appointment looks like a simple
+click. But two people
+
+00:00:03.115 --> 00:00:06.360
+may request the same doctor and time. A
+reliable system must
+
+00:00:06.360 --> 00:00:09.865
+make one correct decision, even when both
+screens looked available.
+
+00:00:10.195 --> 00:00:13.855
+CareIndex checks the request origin and
+session first. Staff need the
+
+00:00:13.855 --> 00:00:17.025
+right permission. A patient account is tied
+to its own fictional
+
+00:00:17.025 --> 00:00:20.185
+profile, so changing a browser field cannot
+book for an unrelated
+
+00:00:20.185 --> 00:00:21.180
+patient.
+
+00:00:21.510 --> 00:00:25.735
+The booking path begins an immediate SQLite
+transaction before checking availability.
+
+00:00:25.735 --> 00:00:30.510
+SQLite serialises writers. This prevents two
+independent check-then-write sequences from
+both
+
+00:00:30.510 --> 00:00:32.420
+treating the same slot as free.
+
+00:00:32.750 --> 00:00:35.300
+A partial unique index allows only one
+scheduled booking for a
+
+00:00:35.300 --> 00:00:39.065
+doctor, date, and time. The application also
+checks working hours and
+
+00:00:39.065 --> 00:00:43.265
+existing reservations. The database rule
+remains a final protection.
+
+00:00:43.595 --> 00:00:47.120
+The appointment and its invoice are created
+inside the same transaction.
+
+00:00:47.120 --> 00:00:51.785
+Both commit together. If something fails, the
+transaction rolls back. A
+
+00:00:51.785 --> 00:00:55.660
+competing request receives a controlled
+conflict instead of a second reservation.
+
+00:00:55.990 --> 00:00:59.900
+The engineering lab explains database
+behaviour and separate algorithms, including
+A
+
+00:00:59.900 --> 00:01:02.875
+V L rotations. It does not claim that a
+teaching tree
+
+00:01:02.875 --> 00:01:08.040
+replaces SQLite indexing. All patients are
+fictional, and payments are simulated.

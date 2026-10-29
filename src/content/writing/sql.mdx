@@ -1,0 +1,51 @@
+## Begin with the things that change independently
+
+The original travel database separates Users, Hotels, TravelDetails, Bookings and PricingData. These names are more than headings for five lists. They describe information with different lifecycles: a user can plan several journeys, a hotel can appear in several choices, and a pricing record can change without changing who the traveller is.
+
+If every detail were copied into a single growing table, a simple update could create contradictions. One row might contain the new hotel description while another retained the old description. Relationships let the system identify a shared thing once and refer to it from multiple records.
+
+The original repository is MySQL coursework with schema definitions, sample data, queries, views and procedures. The modern browser edition uses its relational foundation but has a documented SQLite development schema. It does not pretend to execute MySQL stored procedures inside SQLite, and it does not turn an accommodation choice into a real supplier reservation.
+
+## Read a key as a product rule
+
+A primary key identifies one row. A foreign key connects a row to another valid record. An email uniqueness rule can prevent two rows from claiming the same account address within the model. A rating check can constrain the range of a stored hotel rating, while still saying nothing about whether the original rating was honestly collected.
+
+This is an important distinction for students: a database constraint enforces a precisely stated rule, not the truth of every real-world claim. A value between zero and five is within range. It is not automatically a verified review. The application still has to explain the source and meaning of its data.
+
+<Callout title="Integrity is narrower than authenticity">
+
+Constraints help records remain internally consistent. They do not independently establish that a fictional sample hotel exists, that a price is current or that a reservation has been confirmed.
+
+</Callout>
+
+In the browser edition, the saved-trip schema links a trip to its owner, destination and selected accommodation record. It also stores the input and calculated estimate snapshot. The relationships and the snapshot serve different purposes, so keeping both is deliberate rather than an accidental duplication.
+
+<SourceCode snippet="trip-schema" />
+
+## A join is a question across relationships
+
+Imagine a fictional traveller with two saved trips. Each trip has a hotel identifier, while the hotel table contains that hotel's name and destination relationship. A join follows the shared identifier to return a combined view. It does not mean the application must permanently copy the current hotel name into every row each time a screen is rendered.
+
+The original coursework includes joins and nested queries alongside views and stored procedures. The useful learning objective is to describe the question first. “Which trips belong to this user, and which hotels do they reference?” is a clearer starting point than choosing a SQL keyword because it looks advanced.
+
+<TeachingLab kind="sql" />
+
+The playground uses a small set of clearly fictional records. Selecting a user changes which related trips appear. It is a teaching representation of a join, not a direct query against someone else's account data. In the real application, ownership checks belong on the server; changing a client-side filter is not permission to access another user's plans.
+
+Names also need context. A `Bookings` table in a coursework design describes a modelled concept. It does not prove that the application contacted an airline, accepted a payment or received a confirmation from a hotel. In the demo, saved plans and illustrative choices stay distinct from actual reservations.
+
+## Historical snapshots answer a different question
+
+Suppose a plan was saved when a particular exchange-rate assumption produced a total of PKR 300,000. A later rate can produce a different estimate from otherwise identical inputs. If the system silently recalculates every old record whenever pricing changes, the user loses the ability to inspect what they originally decided.
+
+A saved estimate snapshot answers “what did this plan contain at that time?” A current-price lookup answers “what would these assumptions produce now?” Both can be useful, but presenting one as the other undermines comparison. The modern trip record preserves the original calculation context, while the interface can make any refresh explicit.
+
+That is also why a dated provider quote needs its own provenance. The amount, currency, traveller basis, retrieval time and route are not optional decorations around an interchangeable number. They are part of the information the system needs to explain or reject a selected quote.
+
+## The next layer is behaviour
+
+A schema is a foundation, not a complete application. The browser edition adds validation, session-owned records, deterministic calculations, an interface and controlled provider connectors. Each layer has a different responsibility: the schema protects relationships, the server controls access and mutations, and the interface helps the traveller understand the outcome.
+
+To practise, take one operation—saving a plan—and list what must be checked before the write. Is there an owner? Does the chosen hotel belong to the destination? Are the dates valid? Is the stored quote tied to this session? Which fields must remain historical rather than refresh automatically?
+
+Those questions connect database coursework to software engineering. The value of the five-table foundation is not the number of tables. It is the habit of making relationships, constraints and changing assumptions explicit before a polished screen hides them.

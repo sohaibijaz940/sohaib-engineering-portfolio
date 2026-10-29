@@ -1,0 +1,22 @@
+TrustMart: know what you are comparing
+
+English synthetic narration: Microsoft Zira Desktop
+Actual interface captures and labelled teaching diagrams.
+
+Start with the real problem
+In Lahore's electronics markets, two similar-looking parts may have very different quality, warranties, and prices. TrustMart helps a buyer inspect those differences before deciding.
+
+Compare like with like
+First, describe the component precisely. A phone model, component type, quality grade, and warranty define the comparison group. A cheaper but different part is not automatically a better offer.
+
+Decide which offers qualify
+The price engine keeps approved offers from verified suppliers, with stock available and timestamps no older than seven days. A revoked, stale, or unavailable offer cannot influence this calculation.
+
+Explain the calculation
+With five or more eligible offers, it removes twenty percent from each end of the sorted prices, then averages the remaining values. Smaller samples use the ordinary mean and show low confidence.
+
+Follow the shop record
+A camera scan or manual Shop I D resolves through the backend to the current supplier record. Verified describes that record. It does not prove every product is authentic or guarantee compensation.
+
+Build trust through evidence
+Customers can inspect disclosures, supplier status, and report a problem. Suppliers and administrators have separate permissions. This demo uses fictional shops and sample prices, making its limits visible alongside its features.

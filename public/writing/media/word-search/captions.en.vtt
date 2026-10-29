@@ -1,0 +1,80 @@
+WEBVTT
+
+00:00:00.080 --> 00:00:03.515
+Word Search Studio began as a C plus plus
+console game.
+
+00:00:03.515 --> 00:00:07.225
+The browser edition keeps its fifteen-by-
+fifteen board and difficulty rules, while
+
+00:00:07.225 --> 00:00:11.410
+adding accessible controls, automatic resume,
+and an explanation of the search.
+
+00:00:11.740 --> 00:00:14.430
+A seeded random sequence makes the same
+puzzle reproducible for the
+
+00:00:14.430 --> 00:00:17.885
+same rules and generator version. Daily
+puzzles derive that seed from
+
+00:00:17.885 --> 00:00:20.195
+a shared U T C date, rather than storing a
+new
+
+00:00:20.195 --> 00:00:22.050
+random board for every visitor.
+
+00:00:22.380 --> 00:00:26.130
+The generator tries bounded placements for
+each target. Matching letters may
+
+00:00:26.130 --> 00:00:30.920
+overlap. Only successfully placed words enter
+the target list. Random letters
+
+00:00:30.920 --> 00:00:34.805
+fill the empty cells afterwards, so listed
+targets remain achievable.
+
+00:00:35.135 --> 00:00:39.565
+Easy allows horizontal lines. Intermediate
+adds vertical lines, and hard adds
+
+00:00:39.565 --> 00:00:44.025
+diagonals. The selected cells must form a
+straight permitted path. Forward
+
+00:00:44.025 --> 00:00:46.995
+and reverse selections resolve to the same
+canonical target.
+
+00:00:47.325 --> 00:00:50.685
+A newly found word earns ten points.
+Selecting it again earns
+
+00:00:50.685 --> 00:00:54.940
+nothing and costs no life. Classic mode
+penalises wrong attempts, while
+
+00:00:54.940 --> 00:00:57.975
+relaxed mode lets a student explore without
+that penalty.
+
+00:00:58.305 --> 00:01:01.345
+The algorithm view highlights candidate
+starts and directions until it finds
+
+00:01:01.345 --> 00:01:06.835
+a match. Tests check generation, permitted
+paths, reverse selection, and
+reproducibility.
+
+00:01:06.835 --> 00:01:09.490
+Personal records stay in the browser; they
+are not a verified
+
+00:01:09.490 --> 00:01:10.875
+global leaderboard.

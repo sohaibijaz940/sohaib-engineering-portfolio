@@ -1,0 +1,81 @@
+## The problem before the interface
+
+TrustMart started with a familiar problem in Pakistan: entering an electronics market without enough information to judge a component price or a supplier's claims. In Lahore, a buyer can visit several counters, hear several prices and still struggle to understand whether those offers describe the same thing. An attractive number is not very helpful if it belongs to a different quality grade, a different compatible model or a different warranty.
+
+The first version was university coursework built within the constraints of MIT App Inventor. Its barcode scanner could scan `Shop804` and identify the fictional Ali Electronics record. That was an important working interaction, but the prototype used TinyDB and hardcoded records. The original React coursework explored the web interface separately. Neither foundation should be quietly rewritten as if it had always been a modern, deployed marketplace.
+
+The redesign keeps that history and asks a more demanding question: what would make the information useful enough for a buyer to inspect? The result is a browser application with customer, supplier and administrator workflows, a persistent relational database, a working QR lookup path, comparable price calculations and product disclosures. Its shops and prices remain explicitly fictional. The purpose of the demo is to demonstrate the system's behaviour, not to claim a current survey of Lahore's market.
+
+<Callout title="The central distinction">
+
+A supplier verification record, a seller's product disclosure and a calculated sample price are three different kinds of information. None should silently become a guarantee of manufacturer authenticity.
+
+</Callout>
+
+## A workflow with four separate questions
+
+The original SRS provided three useful anchors: authentication for consumers, suppliers and administrators; component price queries with a market-average calculation; and supplier validation through a Shop ID or QR code. The modern interface expands those paths, but the data flow still has to answer a small set of concrete questions.
+
+What is the customer comparing? Which offers are eligible? How was the displayed number calculated? What does the current supplier record say? Splitting these questions is useful because an error in one should not be hidden by a polished answer to another. A shop can have a valid record while one of its offers is stale. A component can have a price while its repair history remains unknown.
+
+<Workflow articleId="trustmart" />
+
+The customer-facing interface is a React and TypeScript application. Flask handles the server routes, while SQLite stores the demo's relational records. This is a documented development database rather than a claim that a local file is automatically the right infrastructure for every public marketplace. The important architectural boundary is that the browser presents information and requests actions; the server decides whether an action is allowed and which records qualify.
+
+## Comparable is a rule, not a visual similarity
+
+Consider two replacement displays for the same phone. One may be sold as Aftermarket A with one warranty period, while another has a different grade and different terms. Putting both prices into one average would make the calculation look precise while answering the wrong question. Comparability therefore starts before the statistical function: the query must describe the same component group and relevant commercial attributes.
+
+Within that group, the price engine applies additional eligibility rules. The supplier status must be `Verified`; the offer must be approved; stock must be greater than zero; and the timestamp must be neither in the future nor older than seven days. A revoked supplier's low price does not become a bargain in the comparison merely because its value is numerically small.
+
+The timestamp rule deserves attention. “Last updated” is part of the meaning of a price, not decorative text below it. A stale record can be perfectly well-formed JSON and still be unsuitable for a current comparison. Similarly, a future timestamp is rejected rather than treated as unusually fresh data. The function receives a reference time, which also makes its boundary behaviour testable.
+
+<SourceCode snippet="trust-price" />
+
+The source comment also records a database assumption: one current listing per supplier and comparable group. Without that restriction, one supplier could contribute several near-identical rows and gain disproportionate influence. A sensible formula does not rescue a badly defined input population.
+
+## Work through the trimmed mean
+
+For five or more eligible prices, the implementation removes `floor(count × 0.2)` values from each end of the sorted list. It then calculates the mean of the remaining values. With fewer than five, it does not trim; it calculates the ordinary mean and labels the result low confidence. If no eligible offers remain, the result is absent, not zero.
+
+Take five **fictional teaching prices**: PKR 8,000, 8,400, 8,600, 9,000 and 9,500. Removing one value from each tail leaves 8,400, 8,600 and 9,000. Their sum is 26,000, so the displayed integer mean is PKR 8,667. This is a reproducible example of the implemented method. It is not a recommendation about what an actual phone component should cost.
+
+<TeachingLab kind="trustmart" />
+
+Try changing the most expensive eligible offer in the playground. With five eligible rows, that high tail is removed, so a dramatic increase need not change the result. Then make an offer unapproved and watch the sample shrink below the trimming threshold. The behaviour changes because the method depends on the eligible count, not because the interface has chosen a nicer-looking number.
+
+Trimming reduces the influence of a few extreme values. It does not prove the remaining values are honest, representative or current market truth. Coordinated misleading submissions could still distort a small dataset. That is why the demo keeps its “Sample only” language, exposes counts and timestamps, and treats review workflows as part of the design rather than claiming that statistics alone establish trust.
+
+## A QR code is a lookup, not a certificate of authenticity
+
+The modern scanner must do more than animate a camera illustration. On localhost or HTTPS, a browser can request camera permission, read a supported QR code and send the decoded reference through the lookup path. A generated store code resolves to a backend record rather than to a product claim invented by the client.
+
+This creates several meaningful outcomes. A recognised shop can have a current status such as Verified, Warning, Revoked or Pending. A code may be unknown. Camera access may be denied. An uploaded image may not contain a readable code. Manual Shop ID entry and image-upload fallback are useful because permission, lighting and device support are real parts of the workflow.
+
+The important security property is where the status comes from: the current server record, not the mere possession of an image containing a shop name. Copying a QR image must not manufacture a better verification state. The scanner is an input mechanism; the database and permission checks determine the response. Physical-camera acceptance on different devices remains a release check, even when the software lookup tests pass.
+
+<AnnotatedShot project="trustmart" caption="The actual TrustMart customer interface. Its supplier and price records are fictional demo data." />
+
+## Transparency needs fields, evidence and unknowns
+
+The product discussion revealed a second kind of uncertainty: a used phone and an uninstalled replacement component should not share an identical disclosure form. A buyer may want to know condition, visible defects, opening history, replaced parts, warranty terms and the basis of a seller's statement. Some fields are not applicable to one item; others are simply unknown.
+
+“Unknown opening history” should not be rewritten as “never opened.” A manufacturer-original declaration should not be promoted into a platform authenticity guarantee. The interface therefore distinguishes seller-declared information, recorded evidence and missing history. It also gives the customer a reporting route. That route supports investigation; it does not promise insurance, automatic refunds or compensation that the platform has not implemented.
+
+These distinctions make the interface less absolute, but more useful. A customer can inspect the record and ask a better question at handover. The supplier's phone details, opening hours and plaza directions help connect the digital record to a physical visit, while the demo avoids pretending that an ordinary map pin can navigate to an exact counter on an indoor floor.
+
+## Permissions belong behind the screen
+
+Hiding an administrator button is helpful interface design, but it is not authorisation. The server checks sessions and roles before accepting protected changes. Supplier submissions and administrator review actions have different responsibilities. A consumer cannot become an administrator by changing a browser field or calling a route manually.
+
+The original authentication use case also grows into a clearer account story: Google sign-in is for consumer access, while supplier and administrator workflows retain their protected login requirements. The Gemini assistant is a separate integration. A key that powers answer generation does not automatically create Google OAuth credentials, and the assistant should explain the catalogue without changing supplier verification rules.
+
+Tests matter most at these boundaries. The backend suite exercises permissions, QR lookup, pricing, account-link behaviour and transparency rules. The useful question is not only whether the happy path renders. It is whether an invalid role, a stale offer or a conflicting account claim receives the correct controlled outcome.
+
+## What this build taught me
+
+The strongest refinement was not the dark-purple visual treatment. It was making the source of each claim visible. A price has an eligibility set and a timestamp. A supplier has a mutable review status. A product has disclosures with different levels of evidence. A report is a request for investigation, not proof that a refund has happened.
+
+For a student extending this project, I would begin by tracing one record across the interface, route and database. Then change one condition: revoke the supplier, remove stock, advance the clock or use an unauthorised session. Observe whether the displayed result and the permitted action change together. That exercise teaches more about trustworthy software than adding another attractive card.
+
+The next public-release tasks are deliberately separate: persistent hosting, production account configuration, provider limits and physical-device acceptance. The current application is a working fictional-data demo. Its original repositories and prototype remain available as the foundation, while the article's code excerpts describe the modern local edition.

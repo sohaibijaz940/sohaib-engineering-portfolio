@@ -1,0 +1,85 @@
+## Start with the decision, not the calculator
+
+Travel Estimator began as database coursework, with users, travel details, hotels, bookings and pricing records. That is a useful relational foundation, but a visitor making a trip decision does not experience tables first. They experience uncertainty: can the whole trip fit their budget, which numbers are current, and what has been left out?
+
+The modern browser edition grew around that decision. It combines explainable estimates, destination exploration, private saved plans, group planning and configured provider integrations. Its cinematic interface is an invitation to explore, but the engineering has to make the total understandable after the animation stops. A beautiful total with unclear assumptions is still an unclear total.
+
+This is not a booking engine. No flight or hotel is reserved and no payment is accepted. Some values are sample allowances, some are amounts entered by the traveller, and a configured provider can supply a dated flight quote. The central design problem is allowing those sources to coexist without making them look equally certain.
+
+## A budget needs a vocabulary of sources
+
+The calculation engine returns cost lines, not only a final number. Transport, accommodation, a stay-tax allowance, food, local transport, experiences, visa and insurance budgets, other extras and contingency are separate entries. A line includes an amount and an explanation of its formula. Source labels distinguish estimates, entered amounts, a selected provider quote and calculated values.
+
+This distinction is practical. “Your amount” means the traveller entered a whole-trip value; it does not mean a provider independently confirmed it. “Provider quote” means a particular response was retrieved under a particular search context; it does not mean a reservation exists. The contingency is calculated from the current subtotal and is not an extra fee charged by an airline.
+
+<Callout title="Precision is not the same as certainty">
+
+A total can be mathematically exact for its inputs while the inputs remain estimates. The interface should explain both the arithmetic and the uncertainty.
+
+</Callout>
+
+The engine also treats explicit zero differently from missing data. If someone enters zero for an applicable cost override, the system should not accidentally replace that zero with a default allowance. That is why tests include zero-value overrides alongside negative, non-finite and unsupported inputs.
+
+## Follow a live quote through the system
+
+A flight search has a context: origin, destination, departure, return date and traveller count. The browser sends that context to a server route. The server connector keeps the private key away from the client and normalises the provider's response into a consistent application shape.
+
+<Workflow articleId="travel" />
+
+Normalisation is more than renaming a price field. Providers can describe airlines, legs, places and agents through references. The application resolves supplied relationships so the interface can show carrier names, flight numbers, airports, connections and durations when the response includes them. Missing information stays missing instead of receiving a fabricated default.
+
+The cheapest handful of results is not always the best representation of the response. The implemented normaliser retains inexpensive quotes and also preserves additional airline variety within a bounded result set. This is why asking for airline names led to work in the normaliser as well as the card layout. A filter cannot show a carrier that the application discarded before rendering.
+
+The provider's coverage remains a constraint. A missing airline in one returned search is not evidence that the airline never operates the route. Likewise, a provider's returned price is not a promise that the same conditions will still be bookable when the traveller reaches the seller.
+
+## The browser cannot approve its own selection
+
+Showing an offer and applying it to a budget are different actions. The server stores each selectable offer with a session-owned selection identifier and its original search context. When a traveller applies it, the server verifies ownership, checks that the route and party still match, and rejects a selection older than fifteen minutes.
+
+<SourceCode snippet="flight-guards" />
+
+That boundary prevents a subtle mistake: trusting a complete quote object merely because the browser sent one. A caller could otherwise edit its amount, exchange rate or traveller count. The implemented path stores a quote snapshot and validates its metadata against the stored session-owned version when an estimate is used or saved.
+
+Changing the trip is therefore meaningful. If dates, destination, party size or transport mode change, a selected flight should not silently survive as if it still described the new journey. The engine also rejects incompatible quote input. The client can help by clearing an obsolete selection, but the server remains responsible for enforcing its own checks.
+
+This teaching playground intentionally exercises calculation only. It does not call a provider or impersonate that selection endpoint. The real application adds the ownership and stored-metadata checks described above.
+
+## Work the conversion by hand
+
+Suppose a **fictional example quote** is USD 700 and the chosen conversion assumption is PKR 280 per USD. If USD 700 is the group total, the flight amount is `700 × 280 = 196,000` rupees. If it is per person for two travellers, the flight amount is `700 × 280 × 2 = 392,000` rupees.
+
+Neither interpretation should be guessed from the size of the number. The interface asks the user to choose a basis and records the assumption. The reference-rate option and a manually entered rate are also different sources, with their own timestamps and limitations. A reference rate is not automatically the exact rate a card issuer or seller will apply.
+
+<TeachingLab kind="travel" />
+
+Now follow the rest of the total. The selected flight replaces the transport line once; it is not added on top of the sample flight fare. Accommodation, daily allowances and entered extras remain in the estimate. The subtotal changes, then the contingency is recalculated from that changed subtotal. A per-person headline derived from the total is a presentation of the same budget, not a second charge.
+
+The real calculation function performs validation before returning those numbers. It checks valid calendar dates, a stay associated with the selected destination, room capacity, bounded numeric inputs and supported transport modes. A rejected input is better than a confident-looking total computed from an impossible room arrangement or a non-finite conversion rate.
+
+## A provider failure is part of the product
+
+During refinement, the flight screen could show an optional sample table while the visitor expected airline results. Making the live search prominent and collapsing the illustrative tools made the distinction easier to understand. Another visible issue was the local daily safeguard: once used, a new upstream search was blocked before the provider was contacted.
+
+That message must not be confused with the provider account's actual credit balance. A local limit protects the demo from repeated calls; it does not prove the provider has run out of credit. Recently cached matching searches may still be available. The implementation's limit window starts from its first counted request rather than resetting automatically at midnight.
+
+The same honesty applies to restaurant discovery. The configured Places key returned venue details and ratings in the checked responses, while some photo and review fields were absent. The app can offer the venue's Google Maps link, but it should not substitute an unrelated stock image and label it a returned restaurant photo.
+
+<AnnotatedShot project="travel" caption="The actual Travel Estimator interface. Its base costs remain illustrative; provider results are retrieved separately in the workspace." />
+
+Empty, stale, unavailable and quota-protected states all need usable messages. They should help a person decide whether to retry, adjust the search, inspect a source or continue planning with clearly labelled assumptions. They should not manufacture fresh-looking results to preserve the aesthetic of a full screen.
+
+## Save what was decided, not a moving target
+
+A saved plan should explain the assumptions used when it was saved. If exchange rates, sample prices or provider responses change later, silently rewriting the old total would make comparison unreliable. Stored snapshots preserve a decision context; reopening a plan can then make any refreshed assumptions explicit.
+
+Private guest and traveller sessions scope access to plans. Group boards add a separate membership boundary with viewer and editor responsibilities. A plan belonging to one account should not become accessible simply because another visitor guesses an identifier. Those checks are part of the usefulness of saved planning, not an optional layer added after the interface is complete.
+
+The group features also distinguish commitments, expenses and remaining budget. Splitting an indivisible number of rupees needs a reproducible rounding rule so the shares sum to the original amount. A well-presented division that loses or invents a rupee is still a calculation defect. The existing tests exercise that conservation property.
+
+## Test the boundaries that change the answer
+
+The travel checks cover arithmetic totals, room capacity, date validation, quoted-flight replacement, currency assumptions, route mismatch and malformed provider data. Tests also preserve airline details during normalisation and ensure a missing price never becomes an invented zero-price bargain.
+
+For a student, a productive exercise is to change one assumption at a time. Switch the quote from group to per person. Enter zero for food. Change the party size after selecting a flight. Remove a usable exchange rate. For each action, predict whether the system should calculate, clear a selection or refuse the operation before trying it in the interface.
+
+The project does not need to claim a trained machine-learning model to be technically interesting. Its current contribution is making a mixed-source planning budget understandable, keeping selected data tied to its context, and treating provider uncertainty as a first-class state. The original MySQL repository remains the coursework foundation; the local modern edition supplies the browser application described here.

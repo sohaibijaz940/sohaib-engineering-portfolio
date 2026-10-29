@@ -1,0 +1,61 @@
+{
+  "name": "sohaib-engineering-portfolio",
+  "version": "11.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev --turbopack",
+    "build": "next build",
+    "start": "next start",
+    "typecheck": "tsc --noEmit",
+    "lint": "next lint",
+    "test:avl": "tsc src/lib/avl.ts --target es2022 --module commonjs --outDir tests/.compiled --skipLibCheck --strict && node --test tests/avl.engine.test.cjs",
+    "test:careindex": "tsc src/lib/careindex-index.ts src/lib/careindex-data.ts --target es2022 --module commonjs --outDir tests/.careindex-compiled --skipLibCheck --strict && node --test tests/careindex.test.cjs",
+    "setup:careindex": "node scripts/setup-careindex.mjs",
+    "test:server": "node --test tests/careindex-server.test.mjs",
+    "test:booking": "node --test tests/careindex-booking.test.mjs",
+    "test:portal": "node --test tests/careindex-portal.test.mjs",
+    "test:billing": "node --test tests/careindex-billing.test.mjs",
+    "test:migration": "node --test tests/careindex-v6-migration.test.mjs",
+    "test:learning": "tsc src/lib/careindex-index.ts src/lib/careindex-learning.ts --target es2022 --module commonjs --outDir tests/.learning-compiled --skipLibCheck --strict && node --test tests/careindex-learning.test.cjs",
+    "test:engineering": "node --test tests/careindex-engineering.test.mjs",
+    "backup:careindex": "node scripts/backup-careindex.mjs",
+    "verify:backup": "node scripts/verify-backup.mjs",
+    "test:clinic": "node --test tests/careindex-clinic.test.mjs",
+    "test:operations": "node --test tests/careindex-operations.test.mjs",
+    "test:final": "node --test tests/careindex-final.test.mjs tests/careindex-final-render.test.cjs",
+    "test:travel": "tsc src/lib/travel-data.ts src/lib/travel-engine.ts src/lib/travel-planning.ts src/lib/travel-flight-provider.ts src/lib/travel-discovery.ts --target es2022 --module commonjs --outDir tests/.travel-compiled --skipLibCheck --strict && node --test tests/travel.engine.test.cjs tests/travel.planning.test.mjs tests/travel.flight-provider.test.mjs tests/travel.flight-budget.test.cjs tests/travel.discovery.test.mjs",
+    "test:travel:api": "node --test tests/travel.api.test.mjs",
+    "test:travel:workspace": "node --test tests/travel.workspace.test.mjs",
+    "collect:travel": "node scripts/collect-travel-data.mjs",
+    "test:travel:quotes": "node --test tests/travel.flight-budget.api.test.mjs",
+    "test:word-search": "tsc src/lib/word-search.ts --target es2022 --module commonjs --outDir tests/.word-search-compiled --skipLibCheck --strict --esModuleInterop --resolveJsonModule && node --test tests/word-search.test.cjs",
+    "writing:prepare": "node scripts/prepare-writing.mjs",
+    "prebuild": "npm run writing:prepare",
+    "test:writing": "tsc src/lib/writing-labs.ts --target es2022 --module commonjs --outDir tests/.writing-compiled --skipLibCheck --strict && node --test tests/writing.test.cjs"
+  },
+  "dependencies": {
+    "@mdx-js/loader": "^3.1.1",
+    "@mdx-js/react": "^3.1.1",
+    "@next/mdx": "^15.5.28",
+    "@types/mdx": "^2.0.14",
+    "gsap": "^3.14.0",
+    "lucide-react": "^0.468.0",
+    "next": "^15.5.0",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.0",
+    "@types/react": "^19.2.0",
+    "@types/react-dom": "^19.2.0",
+    "autoprefixer": "^10.4.20",
+    "eslint": "^8.57.1",
+    "eslint-config-next": "^15.5.0",
+    "postcss": "^8.5.0",
+    "tailwindcss": "^3.4.17",
+    "typescript": "^5.8.0"
+  },
+  "engines": {
+    "node": ">=22.13.0"
+  }
+}

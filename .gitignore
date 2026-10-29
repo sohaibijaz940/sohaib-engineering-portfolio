@@ -1,0 +1,38 @@
+node_modules
+.next
+out
+.env*
+!.env.example
+.DS_Store
+*.tsbuildinfo
+
+# Generated locally when running the pure AVL algorithm tests
+/tests/.compiled/
+
+# Compiled local test output (CareIndex)
+/tests/.careindex-compiled/
+
+# V5 local-only SQLite clinic sandbox
+/data/*.sqlite
+/data/*.sqlite-*
+/data/*.db
+
+# Verified database backups, operator secrets and logs
+/backups/
+*.sqlite.sha256
+*.log
+
+.next-dev/
+
+/tests/.travel-compiled/
+
+/tests/.writing-compiled/
+
+
+# Local review, recovery and publication staging
+work/
+outputs/
+**/archive/
+**/originals/
+/tests/.word-search-compiled/
+/tests/.learning-compiled/

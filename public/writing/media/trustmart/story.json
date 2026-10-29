@@ -1,0 +1,36 @@
+{
+  "duration": 65.405,
+  "voice": "Microsoft Zira Desktop",
+  "chapters": [
+    {
+      "title": "Start with the real problem",
+      "start": 0,
+      "text": "In Lahore's electronics markets, two similar-looking parts may have very different quality, warranties, and prices. TrustMart helps a buyer inspect those differences before deciding."
+    },
+    {
+      "title": "Compare like with like",
+      "start": 9.69,
+      "text": "First, describe the component precisely. A phone model, component type, quality grade, and warranty define the comparison group. A cheaper but different part is not automatically a better offer."
+    },
+    {
+      "title": "Decide which offers qualify",
+      "start": 20.675,
+      "text": "The price engine keeps approved offers from verified suppliers, with stock available and timestamps no older than seven days. A revoked, stale, or unavailable offer cannot influence this calculation."
+    },
+    {
+      "title": "Explain the calculation",
+      "start": 31.815,
+      "text": "With five or more eligible offers, it removes twenty percent from each end of the sorted prices, then averages the remaining values. Smaller samples use the ordinary mean and show low confidence."
+    },
+    {
+      "title": "Follow the shop record",
+      "start": 42.115,
+      "text": "A camera scan or manual Shop I D resolves through the backend to the current supplier record. Verified describes that record. It does not prove every product is authentic or guarantee compensation."
+    },
+    {
+      "title": "Build trust through evidence",
+      "start": 52.53,
+      "text": "Customers can inspect disclosures, supplier status, and report a problem. Suppliers and administrators have separate permissions. This demo uses fictional shops and sample prices, making its limits visible alongside its features."
+    }
+  ]
+}

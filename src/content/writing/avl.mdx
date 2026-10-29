@@ -1,0 +1,49 @@
+## Start with three IDs
+
+Insert the patient IDs 10, 20 and 30 into an ordinary binary search tree. The first becomes the root. The second goes to its right, and the third goes to the right again. The search rule is still correct, but the shape has become a chain. Repeating that insertion pattern can make a search visit far more nodes than a balanced shape would require.
+
+An AVL tree adds a shape constraint to the binary-search ordering rule. At every node, the heights of the left and right subtrees must differ by no more than one. This local rule keeps the overall height logarithmic in the number of nodes. It is useful to understand the rule before memorising diagrams of the four rotation cases.
+
+The original C++ patient-ID coursework implements insertion, deletion, search, height updates and rotations. The browser lab is a separate TypeScript adaptation that exposes those steps visually. Its identifiers are synthetic teaching data, not real patient information.
+
+## Read the balance factor as a measurement
+
+The browser implementation defines the balance factor as the height of the left subtree minus the height of the right subtree. A positive result means the left side is taller. A negative result means the right side is taller. Values from minus one to plus one satisfy the AVL height rule at that node.
+
+<SourceCode snippet="avl-balance" />
+
+After a change, the implementation updates heights along the affected path. Heights are stored information, so they must be kept consistent with the structure. A tree can look balanced in a screenshot while its cached heights are wrong, which can lead the next operation to choose the wrong action.
+
+For 10, 20 and 30, the original root becomes too right-heavy. A left rotation brings 20 above 10 and 30. The rotation does not sort the values from scratch; it reconnects a small part of a structure whose ordering was already known.
+
+## Four cases describe the path of imbalance
+
+The familiar names describe where the insertion path went relative to the unbalanced node. Left-left uses a right rotation. Right-right uses a left rotation. Left-right first rotates the left child left, then rotates the unbalanced node right. Right-left is the mirror: rotate the right child right, then the node left.
+
+<TeachingLab kind="avl" />
+
+Choose a case in the playground and step through its recorded frames. The example calls the same pure `runAVL` implementation used by the lab rather than playing a disconnected decorative animation. The text explains what the current frame means, and the in-order sequence gives an independent way to inspect the result.
+
+The point is not to learn “left means right” as a slogan. Follow the taller child and the direction of the next step. A zigzag path needs two local operations because a single rotation in the outer direction does not yet create the desired balanced arrangement.
+
+## Why search order survives a rotation
+
+Consider a right rotation around a node `y`, with its left child `x`. Values in `x`'s left subtree are smaller than `x`. Values in `x`'s right subtree lie between `x` and `y`. That middle subtree can become the left subtree of `y` without violating the search rule, because those relationships are already established.
+
+The operation makes `x` the local root and `y` its right child, then updates heights in the correct order. Only a bounded number of links change. The in-order traversal before and after the rotation remains the same sorted sequence. That is a stronger explanation than simply saying the diagram “looks better” afterwards.
+
+<Callout title="Two invariants, not one">
+
+An AVL operation must preserve both search ordering and the height-balance condition. A sorted traversal alone does not prove balance, and a balanced-looking drawing alone does not prove ordering.
+
+</Callout>
+
+Deletion needs the same care. Removing a node can change heights further up the tree, and the implementation must repair the affected ancestors. Empty trees, duplicate identifiers, leaf deletion and root replacement are useful boundary cases because they challenge assumptions hidden by an attractive insertion demo.
+
+## Test more than the picture
+
+The existing AVL checks exercise all four rotations, mixed insertion and deletion, duplicate handling, traversals and repeated invariant validation. Randomised sequences are valuable when a failure can be reproduced and explained; a deterministic example remains valuable for teaching the underlying repair.
+
+The clinic application's persistent records still live in SQLite. The educational AVL tree does not replace the database's own indexing. Keeping that distinction explicit lets this small exercise teach one thing well: how a local structural change can preserve ordering while restoring a global performance property.
+
+Try predicting the next frame before pressing Step. Then compare the explanation and the sorted traversal with your prediction. That small pause turns the visualiser from something to watch into something to reason about.

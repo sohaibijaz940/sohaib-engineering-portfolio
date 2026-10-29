@@ -1,0 +1,89 @@
+## A small game is a useful engineering problem
+
+Word Search Studio began as a C++ console project with fixed 15-by-15 boards, a dictionary, three lives and local high scores. Easy allowed horizontal words in both directions. Intermediate added vertical matching, and Hard added diagonals. Those simple rules create a surprisingly useful collection of engineering questions.
+
+Can every listed word actually be found? Can two people reproduce the same board? What counts as a valid touch selection? What happens after a reload? Can a reader understand the algorithm rather than only trust the result? The browser edition is built around those questions, with an interface that makes discovery pleasant without hiding the rules.
+
+The original C++ files remain part of the project history. One detail needed correcting during reconciliation: the current original code can pause a running game, but its exit-to-menu path does not save a session to disk. The browser version adds real automatic resume. That is an extension of the foundation, not a feature retroactively attributed to the original implementation.
+
+## Make the rules executable
+
+The difficulty level determines the permitted direction vectors. A direction is simply a change in row and column for each next letter. Moving right is `(0, 1)`, moving upward is `(-1, 0)`, and moving diagonally down-right is `(1, 1)`. Hard mode permits all eight combinations used by the game.
+
+<SourceCode snippet="word-directions" />
+
+This representation is useful because generation, selection validation and search can share the same idea of direction. If the interface allows a diagonal selection while the current level's search only recognises horizontal paths, the player experiences an inconsistent rule. A label saying “Easy” does not prevent that defect; the underlying functions need to agree.
+
+Some validations are deliberately simple. A selected path has to contain more than one cell. A non-horizontal, non-vertical path must have equal absolute row and column displacement to form a diagonal. A bent or arbitrary sequence of nearby cells is not a word-search line, even if its letters could spell a target.
+
+## Reproducibility starts with a seed
+
+A seed is an initial value for a deterministic pseudo-random sequence. Given the same seed, rules, vocabulary and generator implementation, the sequence of choices is repeatable. This is useful for a daily puzzle and also for debugging: a failing board can be recreated rather than described as “the random one that appeared earlier.”
+
+The generator uses a small linear congruential sequence with unsigned 32-bit state. It is suitable for this puzzle's reproducibility; it is not used for passwords, session tokens or other security-sensitive randomness. Treating a game seed as if it were a cryptographic secret would confuse two very different requirements.
+
+<Workflow articleId="word-search" />
+
+The daily mode derives a seed from a shared UTC calendar date. That gives a consistent reference day across time zones. It does not promise that a future generator version or changed vocabulary will produce the old board forever. Reproducibility always depends on the complete set of inputs, including the implementation that interprets the seed.
+
+The seed in the playground is visible on purpose. Change it, generate again and compare the board. Then return to the original value. If the rules have not changed, the puzzle should match. This makes determinism something a student can test with their eyes.
+
+## Place the words before adding noise
+
+The generator starts with an empty grid and tries to place longer words before shorter ones. Longer targets have fewer ways to fit, so dealing with them first is a practical heuristic. For each target, it tries a bounded number of candidate starting positions and allowed directions.
+
+A candidate placement must stay within the grid. Each occupied cell must either be empty or already contain the matching letter. That permits useful overlaps without overwriting an existing word with an incompatible character. Successfully placed targets are added to the target list; after placement, the remaining empty cells receive filler letters.
+
+The guarantee is narrower—and more useful—than “random generation always succeeds.” The implementation has an attempt limit. A target that cannot be placed within that limit is not added to the list. The player is therefore asked to find words the generator actually placed, rather than being punished for a target that never reached the board.
+
+The existing tests exercise many seeds and difficulty combinations and verify that the expected vocabulary is placed in those tested cases. That evidence is not a mathematical proof for every possible future vocabulary and grid size. If the board or word collection grows, the placement strategy and its limits should be tested again.
+
+<Callout title="Filler can create extra matches">
+
+Random filler may accidentally spell a target elsewhere. The current game validates actual selected letters against its target list; it does not claim every word has exactly one possible occurrence.
+
+</Callout>
+
+## Validate what the player selected
+
+Pointer and keyboard interactions ultimately describe a starting cell and an ending cell. The path function checks whether those endpoints form a straight line in an allowed direction. It then expands the line into cells, reads their letters from the actual board and checks the resulting text against the puzzle's canonical targets.
+
+<TeachingLab kind="word-search" />
+
+A reversed selection can resolve to the same canonical word. That matters for scoring: finding `CODING` and later selecting its reverse is not two discoveries. Once a canonical word is recorded, repeating it earns no additional points and incurs no penalty. A new valid word earns ten points.
+
+Classic and relaxed modes separate two experiences. Classic preserves the original three-life challenge for wrong attempts. Relaxed mode removes that penalty so someone can explore the board and controls. Hints mark a run as assisted rather than quietly presenting it as an unassisted personal best.
+
+The larger lesson is to centralise the meaning of a valid result. A glowing selection is feedback, not validation. The score should change because the board and rules agree, not because an animation reached its last frame.
+
+## Make the search visible
+
+The search algorithm tries each starting cell and each permitted direction, comparing letters until a mismatch, a boundary or a complete match. Its trace records those candidates, including how many letters matched and where the attempt began.
+
+<SourceCode snippet="word-search" />
+
+The browser lab can step through that trace, animate it or jump to the final match. The highlights are therefore linked to the same search logic, rather than being an unrelated animation that happens to end on a correct word. Exploring the algorithm pauses active play time so learning does not silently worsen the player's timer.
+
+For one word, the straightforward worst-case work is proportional to rows × columns × permitted directions × word length. On a fixed small board this is easy to understand and fast enough for a teaching game. A much larger dictionary-search problem might justify a Trie or a different strategy, but adding that structure here merely to sound advanced would obscure the current lesson.
+
+An implementation detail is worth noticing: highlighting found words by searching for the canonical word can select one valid occurrence. If filler created a second occurrence and a player selected that one, the visual system may identify a different valid path. Exactly which path should remain highlighted is a separate interaction decision from whether the word was validly found.
+
+## Resume without trusting arbitrary saved state
+
+Automatic resume uses the current browser's local storage. The saved game contains the puzzle inputs and progress, but on restoration the board is regenerated from the recorded seed, rules and puzzle kind. Saved found words are checked against the regenerated target list rather than accepted blindly as arbitrary new targets.
+
+The implementation also validates basic shape and bounds before restoring: difficulty, puzzle kind, integer seed, lives, elapsed time and the found-word array. A corrupted value should not crash the whole application. If storage is unavailable, the player can still use the open tab, with a message explaining that persistence is limited.
+
+<AnnotatedShot project="word-search" caption="The actual Word Search Studio interface, with the original game's rules extended into a browser experience." />
+
+Personal records are local convenience data. The owner can edit local storage, clear the browser or play in a different profile. Those scores should not be described as a verified global competition. A public leaderboard would require a different trust model and server-side validation, not merely a shared table of browser-submitted totals.
+
+## Design the controls for more than a mouse
+
+On a touch device, a drag should follow the intended cells without scrolling the page underneath the active board gesture. On a keyboard, the player can enter the board, move with arrows, mark a start with Enter or Space, move to an endpoint and submit. Escape cancels a selection.
+
+Those controls are part of the game, not a checklist added after the visual design. A player should not need to hold a precise mouse gesture to participate. Sound is optional, reduced-motion preferences disable decorative movement, and the word list communicates progress independently of colour alone.
+
+The existing tests check generated targets, deterministic seeds, direction constraints, reversed selections and original-board solvability. A productive extension is to construct edge cases: a word ending at the final column, a diagonal near a corner, a repeated selection or a malformed saved game. Small games make these boundaries visible, which is exactly why they remain valuable portfolio projects.
+
+The outcome is still a word search. Its depth comes from making the rules consistent, the state reproducible and the explanation inspectable. A student can play first and then follow why the program accepted a line; a recruiter can examine the decisions behind the small interaction.

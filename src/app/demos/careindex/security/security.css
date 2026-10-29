@@ -1,0 +1,17 @@
+.v10-security-page{min-height:100vh;background:radial-gradient(ellipse at 85% 10%,#113d2b,transparent 44%),#06100e;color:#edfef5;padding:48px 24px;font-family:inherit}
+.v10-security-width{max-width:720px;margin:auto}
+.v10-security-back{display:inline-flex;gap:8px;align-items:center;color:#94e7bc;text-decoration:none;font-size:13px}
+.v10-security-page header{margin:70px 0 36px}
+.v10-security-mark{display:grid;place-items:center;background:#174932;border:1px solid #37865e;width:54px;height:54px;border-radius:16px;color:#84edb6;margin-bottom:28px}
+.v10-security-page header p{font-size:11px;color:#80d1a6;letter-spacing:3px}
+.v10-security-page h1{font-size:clamp(38px,7vw,78px);letter-spacing:-.055em;line-height:1.06;margin:18px 0}
+.v10-security-page h1 em{color:#91ebbd;font-family:Georgia,serif;font-weight:400}
+.v10-security-page header>span:last-child{display:block;max-width:580px;color:#9dbdae;line-height:1.75;font-size:14px}
+.v10-security-card{border:1px solid #2d5443;border-radius:22px;background:linear-gradient(150deg,#132a20,#0b1915);padding:clamp(20px,4vw,40px)}
+.v10-security-card h2{font-size:23px;margin:20px 0}
+.v10-security-user{display:flex;gap:15px;align-items:center;padding-bottom:24px;border-bottom:1px solid #2b4a3b;color:#9af1bd}
+.v10-security-user div{display:grid;gap:3px}.v10-security-user small{font-size:12px;color:#9cbdaa;overflow-wrap:anywhere}
+.v10-security-card form{display:grid;gap:19px}.v10-security-card label{display:grid;gap:7px;font-size:13px;color:#bbd5c7}
+.v10-security-card input{padding:14px;border-radius:10px;border:1px solid #315442;background:#07120f;color:#f0fff5;font-size:15px;width:100%}
+.v10-security-card button{display:flex;align-items:center;justify-content:center;gap:8px;border:none;border-radius:11px;background:#66e4a4;color:#072317;padding:14px;font-weight:700;cursor:pointer}
+.v10-security-card button:disabled{opacity:.6}.v10-sec-error{color:#ffb6ae}.v10-sec-success{color:#85f2b9}.v10-security-disclaimer{font-size:12px;line-height:1.6;color:#9cbdaa;margin-top:25px}

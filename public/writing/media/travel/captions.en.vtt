@@ -1,0 +1,81 @@
+WEBVTT
+
+00:00:00.080 --> 00:00:02.955
+A flight price is only one part of a trip.
+Travel
+
+00:00:02.955 --> 00:00:07.290
+Estimator brings transport, accommodation,
+daily spending, extras, and a contingency
+into
+
+00:00:07.290 --> 00:00:09.135
+one explained planning budget.
+
+00:00:09.465 --> 00:00:13.645
+Base costs are illustrative estimates.
+Configured providers can return dated flight
+
+00:00:13.645 --> 00:00:17.580
+quotes and venue information. The interface
+distinguishes those sources instead of
+
+00:00:17.580 --> 00:00:20.190
+presenting every number as a current booking
+price.
+
+00:00:20.520 --> 00:00:23.490
+Before applying a flight, the server checks
+who selected it, the
+
+00:00:23.490 --> 00:00:27.720
+route, travel dates, and party size. A
+selection older than fifteen
+
+00:00:27.720 --> 00:00:31.445
+minutes must be refreshed. The browser cannot
+simply invent verified quote
+
+00:00:31.445 --> 00:00:32.525
+metadata.
+
+00:00:32.855 --> 00:00:35.720
+For example, seven hundred dollars at an
+assumed rate of two
+
+00:00:35.720 --> 00:00:39.355
+hundred eighty Pakistani rupees becomes one
+hundred ninety-six thousand rupees for
+
+00:00:39.355 --> 00:00:42.635
+a group. If it is a per-person fare, two
+travellers double
+
+00:00:42.635 --> 00:00:44.000
+that flight amount.
+
+00:00:44.330 --> 00:00:48.210
+The selected flight replaces the sample
+transport line once. Other costs
+
+00:00:48.210 --> 00:00:52.930
+remain. The subtotal and contingency are
+recalculated, while baggage, transfers, and
+
+00:00:52.930 --> 00:00:55.370
+seller fees still need separate confirmation.
+
+00:00:55.700 --> 00:00:58.960
+A provider may return no photos, no usable
+offers, or a
+
+00:00:58.960 --> 00:01:03.010
+quota error. The app explains that result. It
+does not replace
+
+00:01:03.010 --> 00:01:06.110
+missing live data with invented bargains. A
+saved plan is a
+
+00:01:06.110 --> 00:01:08.400
+snapshot, not a reservation.

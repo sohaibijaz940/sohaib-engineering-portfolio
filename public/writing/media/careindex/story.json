@@ -1,0 +1,36 @@
+{
+  "duration": 68.29,
+  "voice": "Microsoft Zira Desktop",
+  "chapters": [
+    {
+      "title": "An easy button, a harder problem",
+      "start": 0,
+      "text": "Booking an appointment looks like a simple click. But two people may request the same doctor and time. A reliable system must make one correct decision, even when both screens looked available."
+    },
+    {
+      "title": "Check authority before writing",
+      "start": 10.115,
+      "text": "CareIndex checks the request origin and session first. Staff need the right permission. A patient account is tied to its own fictional profile, so changing a browser field cannot book for an unrelated patient."
+    },
+    {
+      "title": "Put the check inside the transaction",
+      "start": 21.43,
+      "text": "The booking path begins an immediate SQLite transaction before checking availability. SQLite serialises writers. This prevents two independent check-then-write sequences from both treating the same slot as free."
+    },
+    {
+      "title": "Keep the invariant in the database",
+      "start": 32.67,
+      "text": "A partial unique index allows only one scheduled booking for a doctor, date, and time. The application also checks working hours and existing reservations. The database rule remains a final protection."
+    },
+    {
+      "title": "Commit the complete change",
+      "start": 43.515,
+      "text": "The appointment and its invoice are created inside the same transaction. Both commit together. If something fails, the transaction rolls back. A competing request receives a controlled conflict instead of a second reservation."
+    },
+    {
+      "title": "Understand what the demo proves",
+      "start": 55.91,
+      "text": "The engineering lab explains database behaviour and separate algorithms, including A V L rotations. It does not claim that a teaching tree replaces SQLite indexing. All patients are fictional, and payments are simulated."
+    }
+  ]
+}

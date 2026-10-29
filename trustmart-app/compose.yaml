@@ -1,0 +1,12 @@
+services:
+  trustmart:
+    build: .
+    ports:
+      - "8000:8000"
+    volumes:
+      - trustmart-data:/data
+    environment:
+      TRUSTMART_SECURE: "0"
+      TRUSTMART_DEMO: "1"
+volumes:
+  trustmart-data:

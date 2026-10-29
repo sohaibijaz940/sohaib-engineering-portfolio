@@ -1,0 +1,67 @@
+[
+  {
+    "path": "public/travel/amalfi.webp",
+    "bytes": 247762,
+    "sha256": "17486d626e9b081ec13b6a04c19ec917a7040d0b77a7a1c8e08a471f09cbf355"
+  },
+  {
+    "path": "public/travel/bali.webp",
+    "bytes": 173744,
+    "sha256": "839fb932d1841ac43e194539c2c3a3f62e6e5281f4fc560c469e4b7dd1da2792"
+  },
+  {
+    "path": "public/travel/coast-poster.webp",
+    "bytes": 49656,
+    "sha256": "7a70b9426c824dd81f26b9cd7ae87cde5d550f912735c752909b840059a2b150"
+  },
+  {
+    "path": "public/travel/coast.mp4",
+    "bytes": 947468,
+    "sha256": "54e77c67c5c06b12d425f2a833c367b552f8301a5b09c5858d9ef273c80db140"
+  },
+  {
+    "path": "public/travel/dubai.webp",
+    "bytes": 49292,
+    "sha256": "23a6a3a7a3164380719ae58fa58f1fee6e037097e50e8d7b4905dd3886f5873d"
+  },
+  {
+    "path": "public/travel/hunza.webp",
+    "bytes": 55802,
+    "sha256": "5ba092c651b2e85c8a62f169dab8c0b710c82c9f55c8d0518368ee0544cd7be9"
+  },
+  {
+    "path": "public/travel/istanbul.webp",
+    "bytes": 91118,
+    "sha256": "d73661e88e76b8bc841e64b917384e366027fa6dc788c7c5a8a7ff1c568bac34"
+  },
+  {
+    "path": "public/travel/maldives.webp",
+    "bytes": 151054,
+    "sha256": "137ab64edc92426a43aee453e66a29c2c182fd8f9e59f11aac96b582340615b0"
+  },
+  {
+    "path": "public/travel/paris.webp",
+    "bytes": 201504,
+    "sha256": "02d8dc2d06887529749a78c1b7436e8e7f62d65e91b5e8d83565234508c2ae87"
+  },
+  {
+    "path": "public/travel/rome.webp",
+    "bytes": 99520,
+    "sha256": "56680e89871d8a090b5271ad11882ece63a16ec18a5ff6e30ad264f48f2e5609"
+  },
+  {
+    "path": "public/travel/room-classic.webp",
+    "bytes": 127212,
+    "sha256": "85cea28fcc08cda9b3394e0f238bda0018023bd855a293b01947b9f67a8cfa81"
+  },
+  {
+    "path": "public/travel/room-suite.webp",
+    "bytes": 122330,
+    "sha256": "a32550469deae8c7bdc14fa09268e675286c19dd51fdf8e87b9bd5c7c17e46f7"
+  },
+  {
+    "path": "public/travel/room-twin.webp",
+    "bytes": 49978,
+    "sha256": "bf0f0e1866cae0da417431af05b9717ee7156b7c09d8882a3ef476fd4066607f"
+  }
+]

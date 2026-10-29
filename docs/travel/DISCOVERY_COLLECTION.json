@@ -1,0 +1,194 @@
+{
+  "collectedAt": "2026-10-28T21:00:22.206Z",
+  "records": [
+    {
+      "destination": "amalfi",
+      "status": "live",
+      "source": "https://en.wikivoyage.org/wiki/Amalfi",
+      "fetchedAt": "2026-10-28T21:00:10.660Z",
+      "sections": [
+        {
+          "title": "Eat",
+          "characters": 821
+        },
+        {
+          "title": "Drink",
+          "characters": 1395
+        },
+        {
+          "title": "See",
+          "characters": 1142
+        },
+        {
+          "title": "Do",
+          "characters": 1331
+        }
+      ]
+    },
+    {
+      "destination": "istanbul",
+      "status": "live",
+      "source": "https://en.wikivoyage.org/wiki/Istanbul",
+      "fetchedAt": "2026-10-28T21:00:12.714Z",
+      "sections": [
+        {
+          "title": "Eat",
+          "characters": 2600
+        },
+        {
+          "title": "Drink",
+          "characters": 1078
+        },
+        {
+          "title": "See",
+          "characters": 2600
+        },
+        {
+          "title": "Do",
+          "characters": 2600
+        }
+      ]
+    },
+    {
+      "destination": "hunza",
+      "status": "live",
+      "source": "https://en.wikivoyage.org/wiki/Hunza_Valley",
+      "fetchedAt": "2026-10-28T21:00:13.716Z",
+      "sections": [
+        {
+          "title": "Eat",
+          "characters": 121
+        },
+        {
+          "title": "See",
+          "characters": 2255
+        },
+        {
+          "title": "Do",
+          "characters": 143
+        }
+      ]
+    },
+    {
+      "destination": "maldives",
+      "status": "live",
+      "source": "https://en.wikivoyage.org/wiki/Maldives",
+      "fetchedAt": "2026-10-28T21:00:15.907Z",
+      "sections": [
+        {
+          "title": "Eat",
+          "characters": 2220
+        },
+        {
+          "title": "Drink",
+          "characters": 741
+        },
+        {
+          "title": "See",
+          "characters": 1871
+        },
+        {
+          "title": "Do",
+          "characters": 2600
+        }
+      ]
+    },
+    {
+      "destination": "dubai",
+      "status": "cached",
+      "source": "https://en.wikivoyage.org/wiki/Dubai",
+      "fetchedAt": "2026-10-28T20:57:36.441Z",
+      "sections": [
+        {
+          "title": "Eat",
+          "characters": 2600
+        },
+        {
+          "title": "Drink",
+          "characters": 2240
+        },
+        {
+          "title": "See",
+          "characters": 981
+        },
+        {
+          "title": "Do",
+          "characters": 2600
+        }
+      ]
+    },
+    {
+      "destination": "paris",
+      "status": "live",
+      "source": "https://en.wikivoyage.org/wiki/Paris",
+      "fetchedAt": "2026-10-28T21:00:19.800Z",
+      "sections": [
+        {
+          "title": "Eat",
+          "characters": 2600
+        },
+        {
+          "title": "Drink",
+          "characters": 2600
+        },
+        {
+          "title": "See",
+          "characters": 2600
+        },
+        {
+          "title": "Do",
+          "characters": 2600
+        }
+      ]
+    },
+    {
+      "destination": "bali",
+      "status": "live",
+      "source": "https://en.wikivoyage.org/wiki/Bali",
+      "fetchedAt": "2026-10-28T21:00:20.638Z",
+      "sections": [
+        {
+          "title": "Eat",
+          "characters": 2600
+        },
+        {
+          "title": "Drink",
+          "characters": 2600
+        },
+        {
+          "title": "See",
+          "characters": 2600
+        },
+        {
+          "title": "Do",
+          "characters": 2600
+        }
+      ]
+    },
+    {
+      "destination": "rome",
+      "status": "live",
+      "source": "https://en.wikivoyage.org/wiki/Rome",
+      "fetchedAt": "2026-10-28T21:00:22.187Z",
+      "sections": [
+        {
+          "title": "Eat",
+          "characters": 2600
+        },
+        {
+          "title": "Drink",
+          "characters": 2600
+        },
+        {
+          "title": "See",
+          "characters": 2600
+        },
+        {
+          "title": "Do",
+          "characters": 2600
+        }
+      ]
+    }
+  ],
+  "notice": "Provenance only; guide text remains attributed CC BY-SA content in the runtime cache."
+}

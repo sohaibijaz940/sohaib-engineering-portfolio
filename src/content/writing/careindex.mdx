@@ -1,0 +1,93 @@
+## The easy screen hides a harder promise
+
+An appointment interface can make booking look like a single click. The difficult promise is what happens when two people click for the same doctor, date and time. If both screens recently showed that slot as available, the server still has to produce one correct outcome. It cannot let two cheerful confirmation messages stand in for a consistent record.
+
+CareIndex grew from C++ patient-ID coursework into a synthetic clinic demonstration with patient, staff, clinician and engineering workflows. The browser edition includes persistent appointments, role-scoped access, invoices with simulated payment states and an engineering lab. It does not handle real medical data and is not presented as a deployed clinical system.
+
+This article follows one booking through the actual server path. The goal is to make transactions and database constraints understandable without reducing them to slogans. The interactive example is an explanatory simulation; it does not create an appointment in the application's database.
+
+## Begin with the invariant
+
+An invariant is a rule that should remain true after every permitted operation. For this booking path, one useful invariant is: **there can be only one scheduled booking for a particular doctor, date and time**. Defining the rule this precisely is already an engineering decision. It describes an exact slot model, not a general promise about every possible overlapping interval or appointment duration.
+
+A second invariant links the booking to its invoice. When the reservation is created successfully, its associated invoice should be created as part of the same atomic change. A half-completed outcome—a booking with no invoice because the next statement failed—would be difficult for both the interface and the administrator to explain.
+
+<Callout title="The button is not the authority">
+
+Disabling a slot after one click helps the current visitor. It does not control another browser, an old tab or a manually constructed request. The server and database must enforce the rule independently.
+
+</Callout>
+
+The interface can become stale between reading availability and submitting a booking. That is normal in a shared system. The correct response is not to assume the interface was malicious; it is to recheck the relevant conditions at the point where the system changes its records.
+
+## Check who is making the request
+
+Before writing a booking, the route validates the request boundary, including origin checks and the authenticated session. A staff user needs the relevant permission. A patient follows a different path: the account is linked to a fictional patient profile, and the server derives that patient identifier from the account relationship.
+
+This means a patient cannot authorise a booking for somebody else by editing a `patientId` field in browser tools. The existence of a session answers who is signed in. Permission and ownership checks answer what that person may do. These are related questions, but treating them as interchangeable would expose another patient's records or actions.
+
+The route then validates the requested calendar date and other inputs. Calendar validation is more demanding than checking whether a string contains two hyphens: a value can resemble `YYYY-MM-DD` and still describe an impossible day. The system also uses the clinic's local time rules rather than assuming every server's clock belongs to the same time zone as the clinic.
+
+<Workflow articleId="careindex" />
+
+## Put availability inside the transaction
+
+The transaction helper executes `BEGIN IMMEDIATE`, runs the provided work, and then either commits the result or rolls it back. The important ordering is visible in the booking route: the write transaction begins before the availability check that governs the insert.
+
+<SourceCode snippet="transaction" />
+
+Why does that ordering matter? Imagine two independent operations that each read “free” and then write a booking. If the reads happen outside a suitable transaction boundary, both callers can decide they are first. Updating the interface faster does not remove that gap. It only makes the gap less obvious during a manual demonstration.
+
+SQLite serialises writers. In this implementation, obtaining the immediate write transaction before checking availability prevents the two competing write paths from independently accepting the same view of the slot. A second writer may have to wait or receive a database-busy outcome depending on timing and configuration; the simplified teaching sequence shows it proceeding after the first writer commits.
+
+The application is a synchronous Node and SQLite demonstration, not a benchmark claiming unlimited concurrent throughput. The relevant lesson is the transaction boundary and the invariant it protects. Behaviour under heavier traffic, different storage or multiple service instances needs separate operational testing.
+
+## Keep a final rule in the database
+
+The schema contains a partial unique index over doctor, date and time for rows whose status is `Scheduled`. Read it as a sentence: among currently scheduled bookings, a particular combination may occur only once.
+
+<SourceCode snippet="booking-index" />
+
+The partial condition matters. Cancelled bookings can remain as history without permanently occupying the slot. A later scheduled booking for that combination is still subject to the uniqueness rule. Deleting history simply to make a slot available would be a very different product decision.
+
+The index is a final protection, not the only scheduling check. The route also considers the active patient, doctor availability, working hours, local clinic time and existing reservations. An index over exact slot keys should not be described as a complete algorithm for arbitrary overlapping intervals. If appointment lengths change, the model and its conflict checks must be revisited together.
+
+## Walk through the competing requests
+
+Start with one fictional slot at 10:00. Both visitors can have a screen showing it as available. Request A begins the write transaction, checks current conditions, inserts a scheduled booking and issues its invoice. Those changes are then committed together.
+
+Request B cannot simply reuse the old screen's availability result. In the teaching sequence, it begins after A's commit and performs the availability check against the new state. That check fails, and the route returns a controlled conflict rather than a second reservation. If an unexpected uniqueness violation reaches the boundary, the route maps that into a controlled conflict too.
+
+<TeachingLab kind="careindex" />
+
+Try the alternative shown in the playground: two naive check-then-write operations without the modelled guard. The demonstration makes the failure understandable, but that is not an optional mode in the live booking application. It is a contrast used for teaching. Switching it on does not weaken the real server or alter its database.
+
+The most useful question for a student is where each fact becomes authoritative. A screen can suggest availability. A request can propose an action. The transaction and current data determine whether the action is still valid. The response reports the outcome; it should not be used to invent a record that never committed.
+
+## The invoice belongs to the same change
+
+Inside the booking transaction, the implementation inserts the scheduled appointment and calls the invoice function. The invoice uses the server-side doctor fee rather than trusting a price supplied by the browser. It also has a uniqueness rule for its booking relationship.
+
+If invoice creation fails, the surrounding transaction rolls the whole operation back. The interface should not celebrate a booking while leaving a disconnected financial record. In the demo, payments are simulated, but the consistency problem is still real: related state transitions must agree about what happened.
+
+Rescheduling and cancellation introduce their own rules. An unpaid invoice can be updated for a changed fee, while a paid demonstration invoice cannot silently change its charged amount. Cancelling an unpaid booking can void the invoice; a simulated paid booking follows the explicit refund-due path rather than pretending that money has already been returned.
+
+Those labels are intentionally specific. “Refund due” and “refunded” describe different states. A system becomes easier to inspect when its status names reflect completed operations rather than optimistic intentions.
+
+<AnnotatedShot project="careindex" caption="The actual CareIndex guided tour. Role-specific journeys connect to a synthetic-data clinic demonstration." />
+
+## Where the AVL tree belongs
+
+The original C++ project provides a strong teaching foundation: insertion, search, deletion, height updates and rotations. The browser engineering lab makes algorithms such as AVL operations visible and lets a reader inspect their steps.
+
+That does not mean the application replaces SQLite's indexing with a custom JavaScript AVL tree. The educational data structure and the persistent database serve different purposes. The lab should make that boundary clearer, not use an attractive tree animation to imply a storage architecture that the server does not implement.
+
+This distinction is especially useful in a portfolio. A recruiter can explore a working booking path and separately inspect algorithmic reasoning. A student can learn how a rotation preserves search order without being told that every database lookup in the clinic passes through that teaching tree.
+
+## What to test and what remains a release task
+
+Tests should try to break the stated rules: submit a conflicting reservation, use an invalid role, change a record belonging to another account, fail a related operation, or attempt an invalid state transition. A happy-path screenshot cannot establish those properties on its own.
+
+The existing project includes automated checks around its synthetic data, algorithms, permissions, booking and billing behaviours. The source links below preserve the original coursework; this article's snippets describe the local browser edition. The distinction matters when comparing a repository's history with a modernised demo.
+
+Before a public pilot, persistent hosting, backup and restore procedures, account configuration and operational acceptance still need deliberate review. None of that converts this portfolio application into a real clinical deployment. What it demonstrates now is more focused and inspectable: a set of connected workflows with explicit ownership, transaction boundaries and honest outcomes when requests compete.

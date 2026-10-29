@@ -1,0 +1,18 @@
+{
+  "trustmart_typescript": "passed",
+  "trustmart_build": "passed",
+  "backend_tests": {
+    "passed": 20,
+    "failed": 0,
+    "transport": "Flask in-process test client"
+  },
+  "static_shell": 200,
+  "manifest": 200,
+  "browser_flows": "not verified; loopback access blocked",
+  "camera": "not verified on physical hardware",
+  "public_deployment": "not performed",
+  "portfolio_project_data_typecheck": "passed; full portfolio build not performed",
+  "original_git_repository_modified": false,
+  "figma_url": "https://www.figma.com/design/Vb82Xb6uEXHgVXZSB366oR/Untitled",
+  "figma_screens": 5
+}

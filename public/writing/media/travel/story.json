@@ -1,0 +1,36 @@
+{
+  "duration": 68.65,
+  "voice": "Microsoft Zira Desktop",
+  "chapters": [
+    {
+      "title": "Begin with the whole journey",
+      "start": 0,
+      "text": "A flight price is only one part of a trip. Travel Estimator brings transport, accommodation, daily spending, extras, and a contingency into one explained planning budget."
+    },
+    {
+      "title": "Keep the source visible",
+      "start": 9.385,
+      "text": "Base costs are illustrative estimates. Configured providers can return dated flight quotes and venue information. The interface distinguishes those sources instead of presenting every number as a current booking price."
+    },
+    {
+      "title": "Protect the selected quote",
+      "start": 20.44,
+      "text": "Before applying a flight, the server checks who selected it, the route, travel dates, and party size. A selection older than fifteen minutes must be refreshed. The browser cannot simply invent verified quote metadata."
+    },
+    {
+      "title": "Make the price basis explicit",
+      "start": 32.775,
+      "text": "For example, seven hundred dollars at an assumed rate of two hundred eighty Pakistani rupees becomes one hundred ninety-six thousand rupees for a group. If it is a per-person fare, two travellers double that flight amount."
+    },
+    {
+      "title": "Replace once, then recalculate",
+      "start": 44.25,
+      "text": "The selected flight replaces the sample transport line once. Other costs remain. The subtotal and contingency are recalculated, while baggage, transfers, and seller fees still need separate confirmation."
+    },
+    {
+      "title": "Be honest when data is missing",
+      "start": 55.62,
+      "text": "A provider may return no photos, no usable offers, or a quota error. The app explains that result. It does not replace missing live data with invented bargains. A saved plan is a snapshot, not a reservation."
+    }
+  ]
+}

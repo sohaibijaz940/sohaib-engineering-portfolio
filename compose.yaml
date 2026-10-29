@@ -1,0 +1,32 @@
+# Single-host synthetic-data demonstration; not a production clinical deployment.
+services:
+  careindex:
+    build: .
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:3000:3000"
+    environment:
+      NODE_ENV: production
+      CAREINDEX_DB_PATH: /app/data/careindex.sqlite
+      CAREINDEX_BACKUP_DIR: /app/backups
+      CAREINDEX_SETUP_KEY: ${CAREINDEX_SETUP_KEY:?Set a private setup key}
+      CAREINDEX_DATA_MODE: synthetic
+      CAREINDEX_ENABLE_GUESTS: ${CAREINDEX_ENABLE_GUESTS:-false}
+      NEXT_PUBLIC_SITE_URL: ${NEXT_PUBLIC_SITE_URL:-http://localhost:3000}
+    volumes:
+      - careindex-demo-data:/app/data
+      - careindex-backups:/app/backups
+    read_only: true
+    tmpfs:
+      - /tmp:rw,noexec,nosuid,size=64m
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:3000/api/careindex/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 60s
+    security_opt:
+      - no-new-privileges:true
+volumes:
+  careindex-demo-data:
+  careindex-backups:

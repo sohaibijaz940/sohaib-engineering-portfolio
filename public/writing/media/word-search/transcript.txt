@@ -1,0 +1,22 @@
+Word Search Studio: make every target achievable
+
+English synthetic narration: Microsoft Zira Desktop
+Actual interface captures and labelled teaching diagrams.
+
+A small game with real invariants
+Word Search Studio began as a C plus plus console game. The browser edition keeps its fifteen-by-fifteen board and difficulty rules, while adding accessible controls, automatic resume, and an explanation of the search.
+
+Use a seed, not a mystery
+A seeded random sequence makes the same puzzle reproducible for the same rules and generator version. Daily puzzles derive that seed from a shared U T C date, rather than storing a new random board for every visitor.
+
+Place words before filler
+The generator tries bounded placements for each target. Matching letters may overlap. Only successfully placed words enter the target list. Random letters fill the empty cells afterwards, so listed targets remain achievable.
+
+Validate the line
+Easy allows horizontal lines. Intermediate adds vertical lines, and hard adds diagonals. The selected cells must form a straight permitted path. Forward and reverse selections resolve to the same canonical target.
+
+Reward a discovery once
+A newly found word earns ten points. Selecting it again earns nothing and costs no life. Classic mode penalises wrong attempts, while relaxed mode lets a student explore without that penalty.
+
+Make the logic visible
+The algorithm view highlights candidate starts and directions until it finds a match. Tests check generation, permitted paths, reverse selection, and reproducibility. Personal records stay in the browser; they are not a verified global leaderboard.
